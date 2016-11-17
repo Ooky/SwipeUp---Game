@@ -9,7 +9,7 @@ import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 
-public class PlayScreen implements Screen{
+public class PlayScreen implements Screen {
 
 	private Main main;
 	private Texture testTextures = new Texture("test.png");
@@ -23,8 +23,8 @@ public class PlayScreen implements Screen{
 		this.main = main;
 		screenSizeScaler = Gdx.graphics.getWidth() / 16;
 		bottomRest = (Gdx.graphics.getHeight() - (screenSizeScaler * 26)) / 2;
-		leftRest = (Gdx.graphics.getWidth()%16)/2;
-		
+		leftRest = (Gdx.graphics.getWidth() % 16) / 2;
+
 		regions[0] = new TextureRegion(testTextures, 0, 0, 64, 64);
 		regions[1] = new TextureRegion(testTextures, 64, 0, 64, 64);
 		regions[2] = new TextureRegion(testTextures, 128, 0, 64, 64);
@@ -37,7 +37,7 @@ public class PlayScreen implements Screen{
 		regions[1].setRegionWidth(screenSizeScaler);
 		regions[1].setRegionHeight(screenSizeScaler);
 		regions[2].setRegionWidth(screenSizeScaler);
-		regions[2].setRegionHeight(screenSizeScaler);*/		
+		regions[2].setRegionHeight(screenSizeScaler);*/
 		//SETUP
 
 		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[5][5] = 1;
@@ -61,19 +61,19 @@ public class PlayScreen implements Screen{
 			for (int obj : arr) {
 				switch (obj) {
 					case 0:
-						main.batch.draw(regions[0], positionCounterX, positionCounterY,screenSizeScaler,screenSizeScaler);
+						main.batch.draw(regions[0], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
 						break;
 					case 1:
-						main.batch.draw(regions[1], positionCounterX, positionCounterY,screenSizeScaler,screenSizeScaler);
+						main.batch.draw(regions[1], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
 						break;
 					case 2:
-						main.batch.draw(regions[2], positionCounterX, positionCounterY,screenSizeScaler,screenSizeScaler);
+						main.batch.draw(regions[2], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
 						break;
 					case 3:
-						main.batch.draw(regions[3], positionCounterX, positionCounterY,screenSizeScaler,screenSizeScaler);
+						main.batch.draw(regions[3], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
 						break;
 					default:
-						main.batch.draw(regions[0], positionCounterX, positionCounterY,screenSizeScaler,screenSizeScaler);
+						main.batch.draw(regions[0], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
 						break;
 				}
 				positionCounterY += screenSizeScaler;
