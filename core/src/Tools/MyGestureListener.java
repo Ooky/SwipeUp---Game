@@ -6,10 +6,12 @@ import screens.PlayScreen;
 
 public class MyGestureListener implements GestureDetector.GestureListener {
 		private PlayScreen screen;
-	
+		private PositionModifier positionModifier;
+		
 	public MyGestureListener(PlayScreen screen){
 		super();
 		this.screen = screen;
+		positionModifier = new PositionModifier(screen.returnArray());
 	}
 	
     @Override
@@ -79,14 +81,18 @@ public class MyGestureListener implements GestureDetector.GestureListener {
 	
 	//Swipe directions
 	public void onUp() {
+		positionModifier.movePlayerUp();
 	}
 
 	public void onRight() {
+		positionModifier.movePlayerRight();
 	}
 
 	public void onLeft() {
+		positionModifier.movePlayerLeft();
 	}
 
 	public void onDown() {
+		positionModifier.movePlayerDown();
 	}
 }

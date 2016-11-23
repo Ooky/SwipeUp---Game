@@ -14,6 +14,7 @@ public class PlayScreen implements Screen{
 	private Main main;
 	private Texture testTextures = new Texture("test.png");
 	private TextureRegion regions[] = new TextureRegion[4];
+	//x,y
 	private int[][] arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady = new int[16][26];
 	private int screenSizeScaler = 1;
 	private int bottomRest = 0;
@@ -41,8 +42,48 @@ public class PlayScreen implements Screen{
 		//SETUP
 
 		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[5][5] = 1;
-		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[6][6] = 2;
-		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[7][7] = 3;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[0][5] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][22] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[14][20] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[6][6] = 3;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[0][0] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[1][0] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[2][0] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[3][0] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[4][0] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[5][0] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[6][0] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[7][0] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[8][0] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[9][0] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[10][0] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[11][0] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[12][0] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][0] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[3][24] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[4][24] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[5][24] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[6][24] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[7][24] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[8][24] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[9][24] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[10][24] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[11][24] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[12][24] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][24] = 1;
+				arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[10][15] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[11][15] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[12][15] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][15] = 1;
+					arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][25] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][1] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][2] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][3] = 1;
+						arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][1] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[1][1] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[1][2] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[1][3] = 1;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[7][7] = 2;
 		Gdx.input.setInputProcessor(new GestureDetector(new MyGestureListener(this)));
 	}
 
@@ -83,6 +124,10 @@ public class PlayScreen implements Screen{
 		}
 
 		main.batch.end();
+	}
+	
+	public int[][] returnArray(){
+		return arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady;
 	}
 
 	@Override
