@@ -5,11 +5,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 
-public class StartGame implements Screen {
+public class WinScreen implements Screen {
 
 	private Main main;
 
-	public StartGame(Main main) {
+	public WinScreen(Main main) {
 		this.main = main;
 	}
 
@@ -19,7 +19,7 @@ public class StartGame implements Screen {
 
 	private void handleInput() {
 		if (Gdx.input.isTouched()) {
-			main.setScreen(new PlayScreen(main, 1));
+			main.setScreen(new PlayScreen(main, 2));
 		}
 	}
 
@@ -27,7 +27,7 @@ public class StartGame implements Screen {
 	public void render(float delta) {
 		handleInput();
 		update(delta);
-		Gdx.gl.glClearColor(0 / 255f, 0 / 255f, 255f / 255f, 1);//0-1, Float.
+		Gdx.gl.glClearColor(100 / 255f, 100 / 255f, 200f / 255f, 1);//0-1, Float.
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 //        game.getBatch().begin();

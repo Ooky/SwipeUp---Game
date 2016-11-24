@@ -47,6 +47,9 @@ public class MyGestureListener implements GestureDetector.GestureListener {
                     onUp();
             }
         }
+		if(positionModifier.getGameWon()){
+			screen.setGameWon();
+		}
 		return false;
 
     }

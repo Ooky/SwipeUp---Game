@@ -7,7 +7,8 @@ public class PositionModifier {
 	int playerX;
 	int xPos = 0;
 	int yPos = 0;
-
+	boolean gameWon = false;
+	
 	public PositionModifier(int[][] arr) {
 		returnArray = arr;
 		//Get player Position;
@@ -50,6 +51,15 @@ public class PositionModifier {
 					case 1:
 						collided = true;
 						break;
+					case 2:
+						collided = true;
+						gameWon = true;
+						if(topDown){
+							playerY=i;
+						}else{
+							playerX=i;
+						}
+						break;
 					default:
 						if(topDown){
 							playerY=i;
@@ -61,5 +71,9 @@ public class PositionModifier {
 			}
 		}
 		returnArray[playerX][playerY] = 3;
+	}
+	
+	public boolean getGameWon(){
+		return gameWon;
 	}
 }
