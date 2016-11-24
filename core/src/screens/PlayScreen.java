@@ -9,12 +9,19 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import static com.badlogic.gdx.graphics.g2d.Animation.PlayMode.LOOP;
+import com.badlogic.gdx.utils.Array;
+import sprites.Player;
 
 public class PlayScreen implements Screen{
 
 	private Main main;
 	private Texture testTextures = new Texture("test.png");
 	private TextureRegion regions[] = new TextureRegion[4];
+	
+	private	Array<TextureRegion> frames;
+	private Animation animation;
 	//x,y
 	private int[][] arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady = new int[16][26];
 	private int screenSizeScaler = 1;
@@ -22,6 +29,7 @@ public class PlayScreen implements Screen{
 	private int leftRest = 0;
 	private boolean gameWon = false;
 	
+	private Player player;
 	/***
 	 * 
 	 * @param main
@@ -42,10 +50,15 @@ public class PlayScreen implements Screen{
 		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady = LevelGenerator.generateLevel(level);
 		
 		Gdx.input.setInputProcessor(new GestureDetector(new MyGestureListener(this)));
+		
+		player = new Player();
 	}
 
 	private void update(float dt) {
-		if(gameWon){
+		//player.update(dt);
+		if(!gameWon){
+			
+		}else{
 			main.setScreen(new WinScreen(main));
 			this.dispose();
 		}
@@ -58,7 +71,7 @@ public class PlayScreen implements Screen{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		int positionCounterX = leftRest;
 		int positionCounterY = bottomRest;
-		main.batch.begin();
+		main.batch.begin();		
 		for (int[] arr : arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady) {
 			for (int obj : arr) {
 				switch (obj) {
@@ -72,7 +85,7 @@ public class PlayScreen implements Screen{
 						main.batch.draw(regions[2], positionCounterX, positionCounterY,screenSizeScaler,screenSizeScaler);
 						break;
 					case 3:
-						main.batch.draw(regions[3], positionCounterX, positionCounterY,screenSizeScaler,screenSizeScaler);
+						main.batch.draw(player.getFrame(delta), positionCounterX, positionCounterY,screenSizeScaler,screenSizeScaler);
 						break;
 					default:
 						main.batch.draw(regions[0], positionCounterX, positionCounterY,screenSizeScaler,screenSizeScaler);
@@ -83,8 +96,8 @@ public class PlayScreen implements Screen{
 			positionCounterY = bottomRest;
 			positionCounterX += screenSizeScaler;
 		}
-
 		main.batch.end();
+		
 	}
 	
 	public void setGameWon(){
