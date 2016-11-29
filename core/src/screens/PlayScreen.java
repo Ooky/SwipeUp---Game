@@ -1,5 +1,6 @@
 package screens;
 
+import Tools.AssetHelper;
 import Tools.LevelGenerator;
 import Tools.MyGestureListener;
 import Tools.PositionModifierListener;
@@ -18,8 +19,8 @@ import sprites.Player;
 public class PlayScreen implements Screen, PositionModifierListener{
 
 	private Main main;
-	private Texture testTextures = new Texture("test.png");
 	private TextureRegion regions[] = new TextureRegion[4];
+	private AssetHelper assetHelper = AssetHelper.getAssetHelper();
 	
 	private	Array<TextureRegion> frames;
 	private Animation animation;
@@ -47,10 +48,10 @@ public class PlayScreen implements Screen, PositionModifierListener{
 		bottomRest = (Gdx.graphics.getHeight() - (screenSizeScaler * 26)) / 2;
 		leftRest = (Gdx.graphics.getWidth()%16)/2;
 		
-		regions[0] = new TextureRegion(testTextures, 0, 0, 64, 64);
-		regions[1] = new TextureRegion(testTextures, 64, 0, 64, 64);
-		regions[2] = new TextureRegion(testTextures, 128, 0, 64, 64);
-		regions[3] = new TextureRegion(testTextures, 192, 0, 64, 64);
+		regions[0] = assetHelper.getAllTextureRegions()[1][0];
+		regions[1] = assetHelper.getAllTextureRegions()[1][1];
+		regions[2] = assetHelper.getAllTextureRegions()[1][2];
+		regions[3] = assetHelper.getAllTextureRegions()[1][3];
 		
 		//generates level
 		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady = LevelGenerator.generateLevel(level);
@@ -63,7 +64,8 @@ public class PlayScreen implements Screen, PositionModifierListener{
 		playerNew[0] = 0;
 		playerNew[1] = 0;
 	}
-
+	
+	@Override
 	public void positionModifierChange(int[] oldP, int[] newP, boolean topDown, int positiv){
 		gestureListener.setListening(false);
 		positionChanged = true;
@@ -88,7 +90,9 @@ public class PlayScreen implements Screen, PositionModifierListener{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		int positionCounterX = leftRest;
 		int positionCounterY = bottomRest;
-		main.batch.begin();	
+		main.batch.begin();
+		
+		//Draw the Player Animation
 		if(positionChanged){
 			if(topDown){
 				playerOld[1]+=1*positiv;
@@ -107,6 +111,7 @@ public class PlayScreen implements Screen, PositionModifierListener{
 			}
 			main.batch.draw(player.getFrame(delta),leftRest+playerOld[0]*screenSizeScaler, bottomRest+playerOld[1]*screenSizeScaler,screenSizeScaler,screenSizeScaler);
 		}
+		//Draw the map
 		for (int[] arr : arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady) {
 			for (int obj : arr) {
 				switch (obj) {
@@ -168,6 +173,5 @@ public class PlayScreen implements Screen, PositionModifierListener{
 
 	@Override
 	public void dispose() {
-		testTextures.dispose();
 	}
 }
