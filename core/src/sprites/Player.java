@@ -8,7 +8,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
 public class Player extends Sprite{
+	private Animation actualAnimation;
 	private Animation playerAnimation;
+	private Animation movementAnimation;
 	private Texture animationtexture = new Texture("animation.png");
 	private TextureRegion[] animationRegions;
 	private Array<TextureRegion> frames;
@@ -27,17 +29,36 @@ public class Player extends Sprite{
 			frames.add(animationRegions[i]);
 		}
 		playerAnimation = new Animation(0.5f, frames, LOOP);
+		movementAnimation = new Animation(1f, frames, LOOP);
+		actualAnimation = playerAnimation;
 		frames.clear();
 	}
 	
 	public TextureRegion getFrame(float dt){
 		stateTimer += dt;
-		return	playerAnimation.getKeyFrame(stateTimer, true);
+		return	actualAnimation.getKeyFrame(stateTimer, true);
 		
 	}
 	
 	public void update(float dt){
 		//setPosition(1, 1);
 		//setRegion(getFrame(dt));
+	}
+	
+	public void setAnimation(int ani){
+		switch(ani){
+			case 0:
+				actualAnimation = playerAnimation;
+				break;
+			case 1:
+				actualAnimation = movementAnimation;
+				break;
+			case 2:
+				actualAnimation = playerAnimation;
+				break;
+			default:
+				actualAnimation = playerAnimation;
+				break;
+		}
 	}
 }

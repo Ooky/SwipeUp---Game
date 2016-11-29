@@ -8,6 +8,9 @@ public class PositionModifier {
 	int xPos = 0;
 	int yPos = 0;
 	boolean gameWon = false;
+	private PositionModifierListener listener;
+	private int[] oldPosition = new int[2];
+	private int[] newPosition = new int[2];
 	
 	public PositionModifier(int[][] arr) {
 		returnArray = arr;
@@ -44,6 +47,9 @@ public class PositionModifier {
 	
 	private void modifier(int startpos, boolean topDown, int iterateModifier){
 		boolean collided = false;
+		oldPosition[0] = playerX;
+		oldPosition[1] = playerY;
+		
 		returnArray[playerX][playerY] = 0;
 		for (int i = startpos; (iterateModifier>0)?(i < (topDown?26:16)):(i >= 0); i+=iterateModifier) {
 			if (!collided) {
@@ -69,10 +75,15 @@ public class PositionModifier {
 						break;
 				}
 			}
-		}
-		returnArray[playerX][playerY] = 3;
+		}		
+		newPosition[0] = playerX;
+		newPosition[1] = playerY;
+		listener.positionModifierChange(oldPosition, newPosition, topDown, iterateModifier);
 	}
 	
+	public void setListener(PositionModifierListener pl){
+		listener = pl;
+	}
 	public boolean getGameWon(){
 		return gameWon;
 	}

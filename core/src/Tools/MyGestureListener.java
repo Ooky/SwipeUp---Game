@@ -7,11 +7,13 @@ import screens.PlayScreen;
 public class MyGestureListener implements GestureDetector.GestureListener {
 		private PlayScreen screen;
 		private PositionModifier positionModifier;
+		private boolean listening = true;
 		
 	public MyGestureListener(PlayScreen screen){
 		super();
 		this.screen = screen;
 		positionModifier = new PositionModifier(screen.returnArray());
+		positionModifier.setListener(screen);
 	}
 	
     @Override
@@ -33,22 +35,24 @@ public class MyGestureListener implements GestureDetector.GestureListener {
     }
 
     @Override
-    public boolean fling(float velocityX, float velocityY, int button) {		
-        if(Math.abs(velocityX)>Math.abs(velocityY)){
-            if(velocityX>0){
-                    onRight();
-            }else{
-                    onLeft();
-            }
-        }else{
-            if(velocityY>0){
-                    onDown();
-            }else{                                  
-                    onUp();
-            }
-        }
-		if(positionModifier.getGameWon()){
-			screen.setGameWon();
+    public boolean fling(float velocityX, float velocityY, int button) {
+		if(listening){
+			if(Math.abs(velocityX)>Math.abs(velocityY)){
+				if(velocityX>0){
+						onRight();
+				}else{
+						onLeft();
+				}
+			}else{
+				if(velocityY>0){
+						onDown();
+				}else{                                  
+						onUp();
+				}
+			}
+			if(positionModifier.getGameWon()){
+				screen.setGameWon();
+			}
 		}
 		return false;
 
@@ -97,5 +101,9 @@ public class MyGestureListener implements GestureDetector.GestureListener {
 
 	public void onDown() {
 		positionModifier.movePlayerDown();
+	}
+	
+	public void setListening(boolean listen){
+		listening = listen;
 	}
 }

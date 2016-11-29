@@ -2,6 +2,7 @@ package screens;
 
 import Tools.LevelGenerator;
 import Tools.MyGestureListener;
+import Tools.PositionModifierListener;
 import ch.creatif.swipeup.game.Main;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -14,7 +15,7 @@ import static com.badlogic.gdx.graphics.g2d.Animation.PlayMode.LOOP;
 import com.badlogic.gdx.utils.Array;
 import sprites.Player;
 
-public class PlayScreen implements Screen{
+public class PlayScreen implements Screen, PositionModifierListener{
 
 	private Main main;
 	private Texture testTextures = new Texture("test.png");
@@ -28,8 +29,13 @@ public class PlayScreen implements Screen{
 	private int bottomRest = 0;
 	private int leftRest = 0;
 	private boolean gameWon = false;
-	
+	private boolean positionChanged = false;
 	private Player player;
+	private int[] playerOld = new int[2];
+	private int[] playerNew = new int[2];
+	private boolean topDown = false;
+	private int positiv = 1;
+	private MyGestureListener gestureListener;
 	/***
 	 * 
 	 * @param main
@@ -48,17 +54,28 @@ public class PlayScreen implements Screen{
 		
 		//generates level
 		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady = LevelGenerator.generateLevel(level);
-		
-		Gdx.input.setInputProcessor(new GestureDetector(new MyGestureListener(this)));
+		gestureListener = new MyGestureListener(this);
+		Gdx.input.setInputProcessor(new GestureDetector(gestureListener));
 		
 		player = new Player();
+		playerOld[0] = 0;
+		playerOld[1] = 0;
+		playerNew[0] = 0;
+		playerNew[1] = 0;
 	}
 
+	public void positionModifierChange(int[] oldP, int[] newP, boolean topDown, int positiv){
+		gestureListener.setListening(false);
+		positionChanged = true;
+		playerOld = oldP;
+		playerNew = newP;
+		this.topDown = topDown;
+		this.positiv = positiv;
+	}
+	
 	private void update(float dt) {
 		//player.update(dt);
-		if(!gameWon){
-			
-		}else{
+		if(gameWon && !positionChanged){
 			main.setScreen(new WinScreen(main));
 			this.dispose();
 		}
@@ -71,7 +88,25 @@ public class PlayScreen implements Screen{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		int positionCounterX = leftRest;
 		int positionCounterY = bottomRest;
-		main.batch.begin();		
+		main.batch.begin();	
+		if(positionChanged){
+			if(topDown){
+				playerOld[1]+=1*positiv;
+				if((positiv >= 0 && playerOld[1] > playerNew[1]) || (positiv <= 0 && playerOld[1] < playerNew[1])){
+					gestureListener.setListening(true);
+					positionChanged = false;
+					arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[playerNew[0]][playerNew[1]] = 3;
+				}
+			}else{
+				playerOld[0]+=1*positiv;
+				if((positiv >= 0 && playerOld[0] > playerNew[0]) || (positiv <= 0 && playerOld[0] < playerNew[0])){
+					gestureListener.setListening(true);
+					positionChanged = false;
+					arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[playerNew[0]][playerNew[1]] = 3;
+				}
+			}
+			main.batch.draw(player.getFrame(delta),leftRest+playerOld[0]*screenSizeScaler, bottomRest+playerOld[1]*screenSizeScaler,screenSizeScaler,screenSizeScaler);
+		}
 		for (int[] arr : arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady) {
 			for (int obj : arr) {
 				switch (obj) {
@@ -85,19 +120,22 @@ public class PlayScreen implements Screen{
 						main.batch.draw(regions[2], positionCounterX, positionCounterY,screenSizeScaler,screenSizeScaler);
 						break;
 					case 3:
-						main.batch.draw(player.getFrame(delta), positionCounterX, positionCounterY,screenSizeScaler,screenSizeScaler);
-						break;
+						if(positionChanged){
+							main.batch.draw(regions[0], positionCounterX, positionCounterY,screenSizeScaler,screenSizeScaler);
+						}else{
+							main.batch.draw(player.getFrame(delta),positionCounterX, positionCounterY,screenSizeScaler,screenSizeScaler);
+						}
+							break;
 					default:
 						main.batch.draw(regions[0], positionCounterX, positionCounterY,screenSizeScaler,screenSizeScaler);
 						break;
-				}
+				}				
 				positionCounterY += screenSizeScaler;
 			}
 			positionCounterY = bottomRest;
 			positionCounterX += screenSizeScaler;
 		}
-		main.batch.end();
-		
+		main.batch.end();	
 	}
 	
 	public void setGameWon(){
