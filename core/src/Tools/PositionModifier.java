@@ -11,7 +11,7 @@ public class PositionModifier {
 	private PositionModifierListener listener;
 	private int[] oldPosition = new int[2];
 	private int[] newPosition = new int[2];
-	
+
 	public PositionModifier(int[][] arr) {
 		returnArray = arr;
 		//Get player Position;
@@ -36,55 +36,56 @@ public class PositionModifier {
 	public void movePlayerDown() {
 		modifier(playerY, true, -1);
 	}
-	
-	public void movePlayerRight(){
+
+	public void movePlayerRight() {
 		modifier(playerX, false, 1);
 	}
-	
-	public void movePlayerLeft(){
+
+	public void movePlayerLeft() {
 		modifier(playerX, false, -1);
 	}
-	
-	private void modifier(int startpos, boolean topDown, int iterateModifier){
+
+	private void modifier(int startpos, boolean topDown, int iterateModifier) {
 		boolean collided = false;
 		oldPosition[0] = playerX;
 		oldPosition[1] = playerY;
-		
+
 		returnArray[playerX][playerY] = 0;
-		for (int i = startpos; (iterateModifier>0)?(i < (topDown?26:16)):(i >= 0); i+=iterateModifier) {
+		for (int i = startpos; (iterateModifier > 0) ? (i < (topDown ? 26 : 16)) : (i >= 0); i += iterateModifier) {
 			if (!collided) {
-				switch (topDown?returnArray[playerX][i]:returnArray[i][playerY]) {
+				switch (topDown ? returnArray[playerX][i] : returnArray[i][playerY]) {
 					case 1:
 						collided = true;
 						break;
 					case 2:
 						collided = true;
 						gameWon = true;
-						if(topDown){
-							playerY=i;
-						}else{
-							playerX=i;
+						if (topDown) {
+							playerY = i;
+						} else {
+							playerX = i;
 						}
 						break;
 					default:
-						if(topDown){
-							playerY=i;
-						}else{
-							playerX=i;
+						if (topDown) {
+							playerY = i;
+						} else {
+							playerX = i;
 						}
 						break;
 				}
 			}
-		}		
+		}
 		newPosition[0] = playerX;
 		newPosition[1] = playerY;
 		listener.positionModifierChange(oldPosition, newPosition, topDown, iterateModifier);
 	}
-	
-	public void setListener(PositionModifierListener pl){
+
+	public void setListener(PositionModifierListener pl) {
 		listener = pl;
 	}
-	public boolean getGameWon(){
+
+	public boolean getGameWon() {
 		return gameWon;
 	}
 }

@@ -29,9 +29,6 @@ public class WinScreen implements Screen {
 		update(delta);
 		Gdx.gl.glClearColor(100 / 255f, 100 / 255f, 200f / 255f, 1);//0-1, Float.
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-//        game.getBatch().begin();
-//        game.getBatch().end();
 	}
 
 	@Override

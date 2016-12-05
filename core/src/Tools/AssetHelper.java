@@ -9,7 +9,7 @@ public class AssetHelper {
 	public final int numberOfColumnTiles = 4;
 	public final int numberOfRowTiles = 2;
 	private static AssetHelper instance = null;
-	
+
 	private TextureRegion[][] allTextureRegions = new TextureRegion[2][4];
 
 	private AssetHelper() {
@@ -19,9 +19,9 @@ public class AssetHelper {
 			}
 		}
 	}
-	
-	public static AssetHelper getAssetHelper(){
-		if(instance == null){
+
+	public static AssetHelper getAssetHelper() {
+		if (instance == null) {
 			instance = new AssetHelper();
 		}
 		return instance;
