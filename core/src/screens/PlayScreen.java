@@ -3,8 +3,9 @@ package screens;
 import Tools.AssetHelper;
 import Tools.LevelGenerator;
 import Tools.MyGestureListener;
-import Tools.PlayGestureListener;
+import Tools.PositionModifier;
 import Tools.PositionModifierListener;
+import Tools.SwipeListener;
 import ch.creatif.swipeup.game.Main;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -15,7 +16,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.utils.Array;
 import sprites.Player;
 
-public class PlayScreen implements Screen, PositionModifierListener {
+public class PlayScreen implements Screen, PositionModifierListener, SwipeListener {
 
 	private Main main;
 	private TextureRegion regions[] = new TextureRegion[4];
@@ -36,7 +37,9 @@ public class PlayScreen implements Screen, PositionModifierListener {
 	private boolean topDown = false;
 	private int positiv = 1;
 	private MyGestureListener gestureListener;
-
+	private PositionModifier positionModifier;
+	private boolean listening = true;
+	
 	public PlayScreen(Main main, int level) {
 		this.main = main;
 		screenSizeScaler = Gdx.graphics.getWidth() / 16;
@@ -50,7 +53,8 @@ public class PlayScreen implements Screen, PositionModifierListener {
 
 		//generates level
 		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady = LevelGenerator.generateLevel(level);
-		gestureListener = new PlayGestureListener(this);
+		gestureListener = new MyGestureListener();
+		gestureListener.addSwipeListener(this);
 		Gdx.input.setInputProcessor(new GestureDetector(gestureListener));
 
 		player = new Player();
@@ -58,24 +62,53 @@ public class PlayScreen implements Screen, PositionModifierListener {
 		playerOld[1] = 0;
 		playerNew[0] = 0;
 		playerNew[1] = 0;
+		
+		positionModifier = new PositionModifier(arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady);
+		positionModifier.setListener(this);
 	}
 
 	@Override
 	public void positionModifierChange(int[] oldP, int[] newP, boolean topDown, int positiv) {
-		gestureListener.setListening(false);
+		listening = false;
 		positionChanged = true;
 		playerOld = oldP;
 		playerNew = newP;
 		this.topDown = topDown;
 		this.positiv = positiv;
 	}
+	
+	@Override
+	public void swipeDetected(direction direction) {
+		if (listening) {
+			switch(direction){
+				case UP:
+					positionModifier.movePlayerUp();
+					break;
+				case DOWN:
+					positionModifier.movePlayerDown();
+					break;
+				case LEFT:
+					positionModifier.movePlayerLeft();
+					break;
+				case RIGHT:
+					positionModifier.movePlayerRight();
+					break;
+				default:
+					break;
+			}
+		}
+	}
 
 	private void update(float dt) {
 		//player.update(dt);
-		if (gameWon && !positionChanged) {
+		if (positionModifier.getGameWon() && !positionChanged) {
 			main.setScreen(new WinScreen(main));
 			this.dispose();
-		}
+			}
+//		if (gameWon && !positionChanged) {
+//			main.setScreen(new WinScreen(main));
+//			this.dispose();
+//		}
 	}
 
 	@Override
@@ -92,14 +125,14 @@ public class PlayScreen implements Screen, PositionModifierListener {
 			if (topDown) {
 				playerOld[1] += 1 * positiv;
 				if ((positiv >= 0 && playerOld[1] > playerNew[1]) || (positiv <= 0 && playerOld[1] < playerNew[1])) {
-					gestureListener.setListening(true);
+					listening = true;
 					positionChanged = false;
 					arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[playerNew[0]][playerNew[1]] = 3;
 				}
 			} else {
 				playerOld[0] += 1 * positiv;
 				if ((positiv >= 0 && playerOld[0] > playerNew[0]) || (positiv <= 0 && playerOld[0] < playerNew[0])) {
-					gestureListener.setListening(true);
+					listening = true;
 					positionChanged = false;
 					arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[playerNew[0]][playerNew[1]] = 3;
 				}
