@@ -3,6 +3,7 @@ package screens;
 import Tools.AssetHelper;
 import Tools.LevelGenerator;
 import Tools.MyGestureListener;
+import Tools.PlayGestureListener;
 import Tools.PositionModifierListener;
 import ch.creatif.swipeup.game.Main;
 import com.badlogic.gdx.Gdx;
@@ -49,7 +50,7 @@ public class PlayScreen implements Screen, PositionModifierListener {
 
 		//generates level
 		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady = LevelGenerator.generateLevel(level);
-		gestureListener = new MyGestureListener(this);
+		gestureListener = new PlayGestureListener(this);
 		Gdx.input.setInputProcessor(new GestureDetector(gestureListener));
 
 		player = new Player();
