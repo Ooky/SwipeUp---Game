@@ -1,5 +1,9 @@
 package screens;
 
+import Tools.MyGestureListener;
+import Tools.PositionModifier;
+import Tools.PositionModifierListener;
+import Tools.SwipeListener;
 import ch.creatif.swipeup.game.Main;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -8,12 +12,14 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.Timer;
 import sprites.Player;
 
-public class StartGame implements Screen {
+public class StartGame implements Screen, SwipeListener, PositionModifierListener {
 
 	private Main main;
 	private Stage stage;
@@ -21,13 +27,34 @@ public class StartGame implements Screen {
 	private Player player;
 	private int width;
 	private int height;
-
+	private MyGestureListener gestureListener;
+	private PositionModifier positionModifier;
+	private boolean positionChanged = false;
+	private boolean listening = true;
+	private int[] playerOld = new int[2];
+	private int[] playerNew = new int[2];
+	private boolean topDown = false;
+	private int positiv = 1;
+	private int screenSizeScaler = 1;
+	private int bottomRest = 0;
+	private int leftRest = 0;
+	private int[][] map = new int[16][26];
+	private boolean startGame = false;
+	
 	public StartGame(Main main) {
 		this.main = main;
-		stage = new Stage();
-		player = new Player();
 		height = Gdx.graphics.getHeight();
 		width = Gdx.graphics.getWidth();
+		stage = new Stage();
+		player = new Player();
+		playerOld[0] = 8;
+		playerOld[1] = 12;
+		playerNew[0] = 0;
+		playerNew[1] = 0;
+		screenSizeScaler = Gdx.graphics.getWidth() / 16;
+		bottomRest = (Gdx.graphics.getHeight() - (screenSizeScaler * 26)) / 2;
+		leftRest = (Gdx.graphics.getWidth() % 16) / 2;
+		
 
 		// Generate a 1x1 white texture and store it in the skin named "white".
 		Pixmap pixmap = new Pixmap(100, 100, Pixmap.Format.RGBA8888);
@@ -71,29 +98,63 @@ public class StartGame implements Screen {
 		stage.addActor(textButton3);
 		stage.addActor(textButton4);
 
-		Gdx.input.setInputProcessor(stage);
+		map[8][12] = 3;
+		map[8][22] = 1;
+		map[8][3] = 1;
+		map[2][12] = 1;
+		map[14][12] = 1;
+		//Gdx.input.setInputProcessor(stage);
+		gestureListener = new MyGestureListener();
+		gestureListener.addSwipeListener(this);
+		Gdx.input.setInputProcessor(new GestureDetector(gestureListener));
+		
+		positionModifier = new PositionModifier(map);
+		positionModifier.setListener(this);
 	}
 
 	private void update(float dt) {
-
-	}
-
-	private void handleInput() {
-		if (Gdx.input.isTouched()) {
-			main.setScreen(new PlayScreen(main, 1));
+		//starts the game when the position change of the player is finished
+		if(startGame && !positionChanged){
+			//waits 1 second(libgdx stuff) befor switching screen. Should be replaced by a fancy animation
+			Timer.schedule(new Timer.Task(){
+				@Override
+				public void run() {
+					main.setScreen(new PlayScreen(main, 1));
+				}
+			}, 1);
 		}
 	}
 
+
 	@Override
 	public void render(float delta) {
-		handleInput();
 		update(delta);
 		Gdx.gl.glClearColor(0 / 255f, 0 / 255f, 255f / 255f, 1);//0-1, Float.
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
 		main.batch.begin();
-		main.batch.draw(player.getFrame(delta), width / 2 - width / 32, height / 2 - width / 32, width / 16, width / 16);
+		
+		//Draw the Player Animation
+		if (positionChanged) {
+			if (topDown) {
+				playerOld[1] += 1 * positiv;
+				if ((positiv >= 0 && playerOld[1] > playerNew[1]) || (positiv <= 0 && playerOld[1] < playerNew[1])) {
+					positionChanged = false;
+					map[playerNew[0]][playerNew[1]] = 3;
+				}
+			} else {
+				playerOld[0] += 1 * positiv;
+				if ((positiv >= 0 && playerOld[0] > playerNew[0]) || (positiv <= 0 && playerOld[0] < playerNew[0])) {
+					positionChanged = false;
+					map[playerNew[0]][playerNew[1]] = 3;
+				}
+			}
+			main.batch.draw(player.getFrame(delta), leftRest + playerOld[0] * screenSizeScaler - width/32, bottomRest + playerOld[1] * screenSizeScaler, screenSizeScaler, screenSizeScaler);
+		}else{
+			//Draw the player before and after the swipe
+			main.batch.draw(player.getFrame(delta), leftRest + playerOld[0] * screenSizeScaler - width/32, bottomRest + playerOld[1] * screenSizeScaler, screenSizeScaler, screenSizeScaler);
+		}
 		main.batch.end();
 	}
 
@@ -122,5 +183,38 @@ public class StartGame implements Screen {
 	public void dispose() {
 		stage.dispose();
 		skin.dispose();
+	}
+
+	@Override
+	public void swipeDetected(direction direction) {
+		if(listening){			
+			switch(direction){
+					case UP:
+						startGame = true;
+						positionModifier.movePlayerUp();
+						break;
+					case DOWN:
+						positionModifier.movePlayerDown();
+						break;
+					case LEFT:
+						positionModifier.movePlayerLeft();
+						break;
+					case RIGHT:
+						positionModifier.movePlayerRight();
+						break;
+					default:
+						break;
+				}
+		}
+	}
+
+	@Override
+	public void positionModifierChange(int[] oldP, int[] newP, boolean topDown, int positiv) {
+		listening = false;
+		positionChanged = true;
+		playerOld = oldP;
+		playerNew = newP;
+		this.topDown = topDown;
+		this.positiv = positiv;
 	}
 }
