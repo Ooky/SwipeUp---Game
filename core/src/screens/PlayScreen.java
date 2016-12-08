@@ -15,12 +15,15 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.utils.Array;
 import sprites.Player;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import sprites.Environment;
 
 public class PlayScreen implements Screen, PositionModifierListener, SwipeListener {
 
 	private Main main;
 	private TextureRegion regions[] = new TextureRegion[4];
-	private AssetHelper assetHelper = AssetHelper.getAssetHelper();
+	private Sprite sprites[];
+	private AssetHelper assetHelper;
 
 	private Array<TextureRegion> frames;
 	private Animation animation;
@@ -42,12 +45,14 @@ public class PlayScreen implements Screen, PositionModifierListener, SwipeListen
 	
 	public PlayScreen(Main main, int level) {
 		this.main = main;
+		assetHelper = main.getAssetHelper();
 		screenSizeScaler = Gdx.graphics.getWidth() / 16;
 		bottomRest = (Gdx.graphics.getHeight() - (screenSizeScaler * 26)) / 2;
 		leftRest = (Gdx.graphics.getWidth() % 16) / 2;
 
+		sprites = new Environment[1];
 		regions[0] = assetHelper.getAllTextureRegions()[1][0];
-		regions[1] = assetHelper.getAllTextureRegions()[1][1];
+		sprites[0] = new Environment(assetHelper);
 		regions[2] = assetHelper.getAllTextureRegions()[1][2];
 		regions[3] = assetHelper.getAllTextureRegions()[1][3];
 
@@ -57,7 +62,7 @@ public class PlayScreen implements Screen, PositionModifierListener, SwipeListen
 		gestureListener.addSwipeListener(this);
 		Gdx.input.setInputProcessor(new GestureDetector(gestureListener));
 
-		player = new Player();
+		player = new Player(main.getAssetHelper());
 		playerOld[0] = 0;
 		playerOld[1] = 0;
 		playerNew[0] = 0;
@@ -147,7 +152,8 @@ public class PlayScreen implements Screen, PositionModifierListener, SwipeListen
 						main.batch.draw(regions[0], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
 						break;
 					case 1:
-						main.batch.draw(regions[1], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
+						//((Enviroment)sprites).getFrame() has to be changed later maybe create a new interface
+						main.batch.draw(((Environment)sprites[0]).getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
 						break;
 					case 2:
 						main.batch.draw(regions[2], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);

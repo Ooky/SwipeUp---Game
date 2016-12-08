@@ -40,13 +40,14 @@ public class StartGame implements Screen, SwipeListener, PositionModifierListene
 	private int leftRest = 0;
 	private int[][] map = new int[16][26];
 	private boolean startGame = false;
+	private direction swipeDirection;
 	
 	public StartGame(Main main) {
 		this.main = main;
 		height = Gdx.graphics.getHeight();
 		width = Gdx.graphics.getWidth();
 		stage = new Stage();
-		player = new Player();
+		player = new Player(main.getAssetHelper());
 		playerOld[0] = 8;
 		playerOld[1] = 12;
 		playerNew[0] = 0;
@@ -119,7 +120,20 @@ public class StartGame implements Screen, SwipeListener, PositionModifierListene
 			Timer.schedule(new Timer.Task(){
 				@Override
 				public void run() {
-					main.setScreen(new PlayScreen(main, 1));
+					switch(swipeDirection){
+						case UP:
+							main.setScreen(new PlayScreen(main, 1));
+							break;
+						case DOWN:
+							Gdx.app.exit();
+							break;
+						case LEFT:
+							main.setScreen(new LevelSelectionScreen(main));
+							break;
+						case RIGHT:
+							main.setScreen(new OptionsScreen(main));
+							break;
+					}					
 				}
 			}, 1);
 		}
@@ -188,9 +202,10 @@ public class StartGame implements Screen, SwipeListener, PositionModifierListene
 	@Override
 	public void swipeDetected(direction direction) {
 		if(listening){			
+			swipeDirection = direction;
+			startGame = true;
 			switch(direction){
-					case UP:
-						startGame = true;
+					case UP:						
 						positionModifier.movePlayerUp();
 						break;
 					case DOWN:

@@ -7,28 +7,24 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
-public class Player extends Sprite {
+public class Environment extends Sprite {
 
-	private Animation actualAnimation;
-	private Animation playerAnimation;
-	private Animation movementAnimation;
+	private Animation actualAnimation;;
 	private TextureRegion[] animationRegions;
 	private Array<TextureRegion> frames;
 	private float stateTimer = 0;
 
-	public Player(AssetHelper assetHelper) {
+	public Environment(AssetHelper assetHelper) {
 		//Animation
 		animationRegions = new TextureRegion[4];
 		for (int i = 0; i <= 3; i++) {
-			animationRegions[i] = new TextureRegion(assetHelper.getAllTextureRegions()[0][i]);
+			animationRegions[i] = new TextureRegion(assetHelper.getAllTextureRegions()[3][i]);
 		}
 		frames = new Array<TextureRegion>();
 		for (int i = 0; i < animationRegions.length; i++) {
 			frames.add(animationRegions[i]);
 		}
-		playerAnimation = new Animation(0.5f, frames, LOOP);
-		movementAnimation = new Animation(1f, frames, LOOP);
-		actualAnimation = playerAnimation;
+		actualAnimation = new Animation(0.5f*30, frames, LOOP);
 		frames.clear();
 	}
 
@@ -39,22 +35,5 @@ public class Player extends Sprite {
 	}
 
 	public void update(float dt) {
-	}
-
-	public void setAnimation(int ani) {
-		switch (ani) {
-			case 0:
-				actualAnimation = playerAnimation;
-				break;
-			case 1:
-				actualAnimation = movementAnimation;
-				break;
-			case 2:
-				actualAnimation = playerAnimation;
-				break;
-			default:
-				actualAnimation = playerAnimation;
-				break;
-		}
 	}
 }
