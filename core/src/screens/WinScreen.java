@@ -8,9 +8,11 @@ import com.badlogic.gdx.graphics.GL20;
 public class WinScreen implements Screen {
 
 	private Main main;
-
-	public WinScreen(Main main) {
+	private PlayScreen playScreen;
+	
+	public WinScreen(Main main, PlayScreen playScreen) {
 		this.main = main;
+		this.playScreen = playScreen;
 	}
 
 	private void update(float dt) {
@@ -19,7 +21,8 @@ public class WinScreen implements Screen {
 
 	private void handleInput() {
 		if (Gdx.input.isTouched()) {
-			main.setScreen(new PlayScreen(main, 2));
+			playScreen.changeLevel(2);
+			main.setScreen(playScreen);
 		}
 	}
 

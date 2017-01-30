@@ -20,7 +20,7 @@ public class PlayScreen implements Screen, PositionModifierListener {
 	private ArrayList<Environment> sprites = new ArrayList<Environment>();
 	private AssetHelper assetHelper;
 	private boolean gameWon = false;
-	//x,y
+	
 	private int[][] arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady = new int[16][26];
 	private int screenSizeScaler = 1;
 	private int bottomRest = 0;
@@ -75,7 +75,7 @@ public class PlayScreen implements Screen, PositionModifierListener {
 
 	private void update(float dt) {
 		if (gameWon && !positionChanged) {
-			main.setScreen(new WinScreen(main));
+			main.setScreen(new WinScreen(main, this));
 			this.dispose();
 		}
 	}
@@ -147,11 +147,21 @@ public class PlayScreen implements Screen, PositionModifierListener {
 		}
 		main.batch.end();
 	}
-
-	public int[][] returnArray() {
-		return arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady;
+	
+	//changes the played level and reset the attributs
+	public void changeLevel(int level){
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady = LevelGenerator.generateLevel(level);
+		playerOld[0] = 0;
+		playerOld[1] = 0;
+		playerNew[0] = 0;
+		playerNew[1] = 0;
+		gameWon = false;
+		positionChanged = false;
+		topDown = false;
+		positiv = 1;
+		positionModifier.setToDefaultSettings(arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady);
 	}
-
+	
 	@Override
 	public void show() {
 	}

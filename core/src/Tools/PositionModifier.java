@@ -127,4 +127,25 @@ public class PositionModifier implements SwipeListener{
 	public void setListeningTrue(){
 		listening = true;
 	}
+	
+	public void setToDefaultSettings(int[][] arr){
+		xPos = 0;
+		yPos = 0;
+		gameWon = false;
+		listening = true;
+		returnArray = arr;
+		//Get player Position;
+		int y = 0;
+		for (int[] iter : returnArray) {
+			int x = 0;
+			for (int xpos : iter) {
+				if (xpos == 3) {
+					playerY = x;
+					playerX = y;
+				}
+				x++;
+			}
+			y++;
+		}
+	}
 }

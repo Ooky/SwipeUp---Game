@@ -4,7 +4,7 @@ import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import java.util.ArrayList;
 
-public class MyGestureListener implements GestureDetector.GestureListener {
+public final class MyGestureListener implements GestureDetector.GestureListener {
 	private ArrayList<SwipeListener> listeners = new ArrayList<SwipeListener>();
 	
 	@Override
@@ -98,5 +98,9 @@ public class MyGestureListener implements GestureDetector.GestureListener {
 	
 	public void addSwipeListener(SwipeListener sw){
 		listeners.add(sw);
+	}
+	
+	public void removeSwipeListener(SwipeListener sw){
+		listeners.remove(sw);
 	}
 }

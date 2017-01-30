@@ -3,7 +3,6 @@ package screens;
 import Tools.MyGestureListener;
 import Tools.PositionModifier;
 import Tools.PositionModifierListener;
-import Tools.SwipeListener;
 import ch.creatif.swipeup.game.Main;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -129,6 +128,7 @@ public class StartGame implements Screen, PositionModifierListener {
 					else if(playerNew[1] == playerOld[1] && playerNew[0] > 8){
 						main.setScreen(new OptionsScreen(main));
 					}
+					dispose();
 				}
 			}, 1);
 		}
