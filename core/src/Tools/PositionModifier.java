@@ -90,16 +90,12 @@ public class PositionModifier implements SwipeListener{
 		}
 		newPosition[0] = playerX;
 		newPosition[1] = playerY;
-		listener.positionModifierChange(oldPosition, newPosition, topDown, iterateModifier);
+		listener.positionModifierChange(oldPosition, newPosition, topDown, iterateModifier, gameWon);
 		listening = false;
 	}
 
 	public void setListener(PositionModifierListener pl) {
 		listener = pl;
-	}
-
-	public boolean getGameWon() {
-		return gameWon;
 	}
 
 	@Override

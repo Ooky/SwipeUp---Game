@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -30,7 +29,6 @@ public class StartGame implements Screen, PositionModifierListener {
 	private MyGestureListener gestureListener;
 	private PositionModifier positionModifier;
 	private boolean positionChanged = false;
-	private boolean listening = true;
 	private int[] playerOld = new int[2];
 	private int[] playerNew = new int[2];
 	private boolean topDown = false;
@@ -103,10 +101,6 @@ public class StartGame implements Screen, PositionModifierListener {
 		map[8][3] = 1;
 		map[2][12] = 1;
 		map[14][12] = 1;
-		//Gdx.input.setInputProcessor(stage);
-//		gestureListener = new MyGestureListener();
-//		gestureListener.addSwipeListener(this);
-//		Gdx.input.setInputProcessor(new GestureDetector(gestureListener));
 		
 		positionModifier = new PositionModifier(map);
 		positionModifier.setListener(this);
@@ -118,29 +112,21 @@ public class StartGame implements Screen, PositionModifierListener {
 			//waits 1 second(libgdx stuff) befor switching screen. Should be replaced by a fancy animation
 			Timer.schedule(new Timer.Task(){
 				@Override
-				public void run() {
-//					switch(swipeDirection){
-//						case UP:
-//							main.setScreen(new PlayScreen(main, 1));
-//							break;
-//						case DOWN:
-//							Gdx.app.exit();
-//							break;
-//						case LEFT:
-//							main.setScreen(new LevelSelectionScreen(main));
-//							break;
-//						case RIGHT:
-//							main.setScreen(new OptionsScreen(main));
-//							break;
-//					}		
+				public void run() {		
 					//swipe top
 					if(playerNew[0] == playerOld[0] && playerNew[1] > 12){
 						main.setScreen(new PlayScreen(main, 1));
-					}else if(playerNew[0] == playerOld[0] && playerNew[1] < 12){
+					}
+					//swipe down
+					else if(playerNew[0] == playerOld[0] && playerNew[1] < 12){
 						Gdx.app.exit();
-					}else if(playerNew[1] == playerOld[1] && playerNew[0] < 8){
+					}
+					//swipe left
+					else if(playerNew[1] == playerOld[1] && playerNew[0] < 8){
 						main.setScreen(new LevelSelectionScreen(main));
-					}else if(playerNew[1] == playerOld[1] && playerNew[0] > 8){
+					}
+					//swipe right
+					else if(playerNew[1] == playerOld[1] && playerNew[0] > 8){
 						main.setScreen(new OptionsScreen(main));
 					}
 				}
@@ -208,34 +194,9 @@ public class StartGame implements Screen, PositionModifierListener {
 		skin.dispose();
 	}
 
-//	@Override
-//	public void swipeDetected(direction direction) {
-//		if(listening){			
-//			swipeDirection = direction;
-//			startGame = true;
-//			switch(direction){
-//					case UP:						
-//						positionModifier.movePlayerUp();
-//						break;
-//					case DOWN:
-//						positionModifier.movePlayerDown();
-//						break;
-//					case LEFT:
-//						positionModifier.movePlayerLeft();
-//						break;
-//					case RIGHT:
-//						positionModifier.movePlayerRight();
-//						break;
-//					default:
-//						break;
-//				}
-//		}
-//	}
-
 	@Override
-	public void positionModifierChange(int[] oldP, int[] newP, boolean topDown, int positiv) {
+	public void positionModifierChange(int[] oldP, int[] newP, boolean topDown, int positiv, boolean gameWon) {
 		startGame = true;
-		listening = false;
 		positionChanged = true;
 		playerOld = oldP;
 		playerNew = newP;

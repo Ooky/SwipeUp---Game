@@ -2,18 +2,13 @@ package screens;
 
 import Tools.AssetHelper;
 import Tools.LevelGenerator;
-import Tools.MyGestureListener;
 import Tools.PositionModifier;
 import Tools.PositionModifierListener;
-import Tools.SwipeListener;
 import ch.creatif.swipeup.game.Main;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.utils.Array;
 import sprites.Player;
 import java.util.ArrayList;
 import sprites.Environment;
@@ -24,7 +19,7 @@ public class PlayScreen implements Screen, PositionModifierListener {
 	private TextureRegion regions[] = new TextureRegion[4];
 	private ArrayList<Environment> sprites = new ArrayList<Environment>();
 	private AssetHelper assetHelper;
-	
+	private boolean gameWon = false;
 	//x,y
 	private int[][] arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady = new int[16][26];
 	private int screenSizeScaler = 1;
@@ -36,9 +31,7 @@ public class PlayScreen implements Screen, PositionModifierListener {
 	private int[] playerNew = new int[2];
 	private boolean topDown = false;
 	private int positiv = 1;
-	private MyGestureListener gestureListener;
 	private PositionModifier positionModifier;
-	private boolean listening = true;
 	
 	public PlayScreen(Main main, int level) {
 		this.main = main;
@@ -58,13 +51,6 @@ public class PlayScreen implements Screen, PositionModifierListener {
 		//generates level
 		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady = LevelGenerator.generateLevel(level);
 		
-	/*	//Creates a new Swipe detector
-		gestureListener = new MyGestureListener();
-		//Adds a Listener to the detector
-		gestureListener.addSwipeListener(this);
-		//sets the detector as inputprocessor so he detects inputs
-		Gdx.input.setInputProcessor(new GestureDetector(gestureListener));*/
-		
 		//create a new Player and manages his position. Single Responiblity is not strong in this ones
 		player = new Player(main.getAssetHelper());
 		playerOld[0] = 0;
@@ -77,8 +63,8 @@ public class PlayScreen implements Screen, PositionModifierListener {
 	}
 
 	@Override
-	public void positionModifierChange(int[] oldP, int[] newP, boolean topDown, int positiv) {
-//		listening = false;
+	public void positionModifierChange(int[] oldP, int[] newP, boolean topDown, int positiv, boolean gameWon) {
+		this.gameWon = gameWon;
 		positionChanged = true;
 		playerOld = oldP;
 		playerNew = newP;
@@ -86,42 +72,12 @@ public class PlayScreen implements Screen, PositionModifierListener {
 		this.positiv = positiv;
 	}
 	
-//	@Override
-//	/**
-//	 * changes the position of the player, when a swipe is detected
-//	 * @param direction is Enum, can be UP/DOWN/LEFT/RIGHT
-//	 */
-//	public void swipeDetected(direction direction) {
-//		if (listening) {
-//			switch(direction){
-//				case UP:
-//					positionModifier.movePlayerUp();
-//					break;
-//				case DOWN:
-//					positionModifier.movePlayerDown();
-//					break;
-//				case LEFT:
-//					positionModifier.movePlayerLeft();
-//					break;
-//				case RIGHT:
-//					positionModifier.movePlayerRight();
-//					break;
-//				default:
-//					break;
-//			}
-//		}
-//	}
 
 	private void update(float dt) {
-		//player.update(dt);
-		if (positionModifier.getGameWon() && !positionChanged) {
+		if (gameWon && !positionChanged) {
 			main.setScreen(new WinScreen(main));
 			this.dispose();
-			}
-//		if (gameWon && !positionChanged) {
-//			main.setScreen(new WinScreen(main));
-//			this.dispose();
-//		}
+		}
 	}
 
 	@Override
@@ -135,23 +91,25 @@ public class PlayScreen implements Screen, PositionModifierListener {
 
 		//Draw the Player Animation
 		if (positionChanged) {
+			//movement y direction
 			if (topDown) {
 				playerOld[1] += 1 * positiv;
 				if ((positiv >= 0 && playerOld[1] > playerNew[1]) || (positiv <= 0 && playerOld[1] < playerNew[1])) {
-//					listening = true;
 					positionModifier.setListeningTrue();
 					positionChanged = false;
 					arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[playerNew[0]][playerNew[1]] = 3;
 				}
-			} else {
+			} 
+			//move x direction
+			else {
 				playerOld[0] += 1 * positiv;
 				if ((positiv >= 0 && playerOld[0] > playerNew[0]) || (positiv <= 0 && playerOld[0] < playerNew[0])) {
-//					listening = true;
 					positionModifier.setListeningTrue();
 					positionChanged = false;
 					arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[playerNew[0]][playerNew[1]] = 3;
 				}
 			}
+			//draws player while he is moving
 			main.batch.draw(player.getFrame(delta), leftRest + playerOld[0] * screenSizeScaler, bottomRest + playerOld[1] * screenSizeScaler, screenSizeScaler, screenSizeScaler);
 		}
 		//Draw the map
