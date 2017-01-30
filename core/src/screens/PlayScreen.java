@@ -60,6 +60,7 @@ public class PlayScreen implements Screen, PositionModifierListener {
 		
 		positionModifier = new PositionModifier(arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady);
 		positionModifier.setListener(this);
+		Main.gestureListener.addSwipeListener(positionModifier);
 	}
 
 	@Override
@@ -76,6 +77,7 @@ public class PlayScreen implements Screen, PositionModifierListener {
 	private void update(float dt) {
 		if (gameWon && !positionChanged) {
 			main.setScreen(new WinScreen(main, this));
+			Main.gestureListener.removeSwipeListener(positionModifier);
 			this.dispose();
 		}
 	}
@@ -160,6 +162,7 @@ public class PlayScreen implements Screen, PositionModifierListener {
 		topDown = false;
 		positiv = 1;
 		positionModifier.setToDefaultSettings(arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady);
+		Main.gestureListener.addSwipeListener(positionModifier);
 	}
 	
 	@Override

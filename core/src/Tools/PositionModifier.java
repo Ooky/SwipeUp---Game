@@ -1,5 +1,6 @@
 package Tools;
 
+import ch.creatif.swipeup.game.Main;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.input.GestureDetector;
 
@@ -18,11 +19,11 @@ public class PositionModifier implements SwipeListener{
 	
 	public PositionModifier(int[][] arr) {
 		//Creates a new Swipe detector
-		MyGestureListener gestureListener = new MyGestureListener();
+//		MyGestureListener gestureListener = new MyGestureListener();
 		//Adds a Listener to the detector
-		gestureListener.addSwipeListener(this);
+//		Main.gestureListener.addSwipeListener(this);
 		//sets the detector as inputprocessor so he detects inputs
-		Gdx.input.setInputProcessor(new GestureDetector(gestureListener));
+//		Gdx.input.setInputProcessor(new GestureDetector(gestureListener));
 		
 		returnArray = arr;
 		//Get player Position;

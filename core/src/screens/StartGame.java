@@ -1,6 +1,5 @@
 package screens;
 
-import Tools.MyGestureListener;
 import Tools.PositionModifier;
 import Tools.PositionModifierListener;
 import ch.creatif.swipeup.game.Main;
@@ -25,7 +24,6 @@ public class StartGame implements Screen, PositionModifierListener {
 	private Player player;
 	private int width;
 	private int height;
-	private MyGestureListener gestureListener;
 	private PositionModifier positionModifier;
 	private boolean positionChanged = false;
 	private int[] playerOld = new int[2];
@@ -103,6 +101,7 @@ public class StartGame implements Screen, PositionModifierListener {
 		
 		positionModifier = new PositionModifier(map);
 		positionModifier.setListener(this);
+		Main.gestureListener.addSwipeListener(positionModifier);
 	}
 
 	private void update(float dt) {
@@ -128,6 +127,7 @@ public class StartGame implements Screen, PositionModifierListener {
 					else if(playerNew[1] == playerOld[1] && playerNew[0] > 8){
 						main.setScreen(new OptionsScreen(main));
 					}
+					Main.gestureListener.removeSwipeListener(positionModifier);
 					dispose();
 				}
 			}, 1);
