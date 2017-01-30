@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.Array;
 
 public class Environment extends Sprite {
 
-	private Animation actualAnimation;;
+	private Animation actualAnimation;
 	private TextureRegion[] animationRegions;
 	private Array<TextureRegion> frames;
 	private float stateTimer = 0;

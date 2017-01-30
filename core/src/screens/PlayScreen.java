@@ -2,6 +2,7 @@ package screens;
 
 import Tools.AssetHelper;
 import Tools.LevelGenerator;
+import Tools.PlayScreenListener;
 import Tools.PositionModifier;
 import Tools.PositionModifierListener;
 import ch.creatif.swipeup.game.Main;
@@ -32,6 +33,7 @@ public class PlayScreen implements Screen, PositionModifierListener {
 	private boolean topDown = false;
 	private int positiv = 1;
 	private PositionModifier positionModifier;
+	private ArrayList<PlayScreenListener> listeners = new ArrayList<PlayScreenListener>();
 	
 	public PlayScreen(Main main, int level) {
 		this.main = main;
@@ -77,6 +79,9 @@ public class PlayScreen implements Screen, PositionModifierListener {
 	private void update(float dt) {
 		if (gameWon && !positionChanged) {
 			main.setScreen(new WinScreen(main, this));
+			for(PlayScreenListener listener : listeners){
+				listener.levelChangeDetected();
+			}
 			Main.gestureListener.removeSwipeListener(positionModifier);
 			this.dispose();
 		}
@@ -90,7 +95,7 @@ public class PlayScreen implements Screen, PositionModifierListener {
 		int positionCounterX = leftRest;
 		int positionCounterY = bottomRest;
 		main.batch.begin();
-
+		
 		//Draw the Player Animation
 		if (positionChanged) {
 			//movement y direction
@@ -147,6 +152,7 @@ public class PlayScreen implements Screen, PositionModifierListener {
 			positionCounterY = bottomRest;
 			positionCounterX += screenSizeScaler;
 		}
+		main.batch.draw(assetHelper.getStartNewPlayScreenAnimationFrame(delta), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		main.batch.end();
 	}
 	
@@ -163,6 +169,10 @@ public class PlayScreen implements Screen, PositionModifierListener {
 		positiv = 1;
 		positionModifier.setToDefaultSettings(arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady);
 		Main.gestureListener.addSwipeListener(positionModifier);
+	}
+	
+	public void addListener(PlayScreenListener listener){
+		listeners.add(listener);
 	}
 	
 	@Override
