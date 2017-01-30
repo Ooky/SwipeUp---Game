@@ -14,11 +14,12 @@ public class Environment extends Sprite {
 	private Array<TextureRegion> frames;
 	private float stateTimer = 0;
 
-	public Environment(AssetHelper assetHelper) {
+	public Environment(AssetHelper assetHelper, int startPos, int endPos, int row) {
+		int animationLength = endPos - startPos;
 		//Animation
 		animationRegions = new TextureRegion[4];
-		for (int i = 0; i <= 3; i++) {
-			animationRegions[i] = new TextureRegion(assetHelper.getAllTextureRegions()[3][i]);
+		for (int i = startPos; i < animationLength; i++) {
+			animationRegions[i] = new TextureRegion(assetHelper.getAllTextureRegions()[row][i]);
 		}
 		frames = new Array<TextureRegion>();
 		for (int i = 0; i < animationRegions.length; i++) {

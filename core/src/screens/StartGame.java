@@ -19,7 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Timer;
 import sprites.Player;
 
-public class StartGame implements Screen, SwipeListener, PositionModifierListener {
+public class StartGame implements Screen, PositionModifierListener {
 
 	private Main main;
 	private Stage stage;
@@ -40,7 +40,6 @@ public class StartGame implements Screen, SwipeListener, PositionModifierListene
 	private int leftRest = 0;
 	private int[][] map = new int[16][26];
 	private boolean startGame = false;
-	private direction swipeDirection;
 	
 	public StartGame(Main main) {
 		this.main = main;
@@ -105,9 +104,9 @@ public class StartGame implements Screen, SwipeListener, PositionModifierListene
 		map[2][12] = 1;
 		map[14][12] = 1;
 		//Gdx.input.setInputProcessor(stage);
-		gestureListener = new MyGestureListener();
-		gestureListener.addSwipeListener(this);
-		Gdx.input.setInputProcessor(new GestureDetector(gestureListener));
+//		gestureListener = new MyGestureListener();
+//		gestureListener.addSwipeListener(this);
+//		Gdx.input.setInputProcessor(new GestureDetector(gestureListener));
 		
 		positionModifier = new PositionModifier(map);
 		positionModifier.setListener(this);
@@ -120,20 +119,30 @@ public class StartGame implements Screen, SwipeListener, PositionModifierListene
 			Timer.schedule(new Timer.Task(){
 				@Override
 				public void run() {
-					switch(swipeDirection){
-						case UP:
-							main.setScreen(new PlayScreen(main, 1));
-							break;
-						case DOWN:
-							Gdx.app.exit();
-							break;
-						case LEFT:
-							main.setScreen(new LevelSelectionScreen(main));
-							break;
-						case RIGHT:
-							main.setScreen(new OptionsScreen(main));
-							break;
-					}					
+//					switch(swipeDirection){
+//						case UP:
+//							main.setScreen(new PlayScreen(main, 1));
+//							break;
+//						case DOWN:
+//							Gdx.app.exit();
+//							break;
+//						case LEFT:
+//							main.setScreen(new LevelSelectionScreen(main));
+//							break;
+//						case RIGHT:
+//							main.setScreen(new OptionsScreen(main));
+//							break;
+//					}		
+					//swipe top
+					if(playerNew[0] == playerOld[0] && playerNew[1] > 12){
+						main.setScreen(new PlayScreen(main, 1));
+					}else if(playerNew[0] == playerOld[0] && playerNew[1] < 12){
+						Gdx.app.exit();
+					}else if(playerNew[1] == playerOld[1] && playerNew[0] < 8){
+						main.setScreen(new LevelSelectionScreen(main));
+					}else if(playerNew[1] == playerOld[1] && playerNew[0] > 8){
+						main.setScreen(new OptionsScreen(main));
+					}
 				}
 			}, 1);
 		}
@@ -199,32 +208,33 @@ public class StartGame implements Screen, SwipeListener, PositionModifierListene
 		skin.dispose();
 	}
 
-	@Override
-	public void swipeDetected(direction direction) {
-		if(listening){			
-			swipeDirection = direction;
-			startGame = true;
-			switch(direction){
-					case UP:						
-						positionModifier.movePlayerUp();
-						break;
-					case DOWN:
-						positionModifier.movePlayerDown();
-						break;
-					case LEFT:
-						positionModifier.movePlayerLeft();
-						break;
-					case RIGHT:
-						positionModifier.movePlayerRight();
-						break;
-					default:
-						break;
-				}
-		}
-	}
+//	@Override
+//	public void swipeDetected(direction direction) {
+//		if(listening){			
+//			swipeDirection = direction;
+//			startGame = true;
+//			switch(direction){
+//					case UP:						
+//						positionModifier.movePlayerUp();
+//						break;
+//					case DOWN:
+//						positionModifier.movePlayerDown();
+//						break;
+//					case LEFT:
+//						positionModifier.movePlayerLeft();
+//						break;
+//					case RIGHT:
+//						positionModifier.movePlayerRight();
+//						break;
+//					default:
+//						break;
+//				}
+//		}
+//	}
 
 	@Override
 	public void positionModifierChange(int[] oldP, int[] newP, boolean topDown, int positiv) {
+		startGame = true;
 		listening = false;
 		positionChanged = true;
 		playerOld = oldP;

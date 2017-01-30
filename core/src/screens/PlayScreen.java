@@ -15,24 +15,21 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.utils.Array;
 import sprites.Player;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import java.util.ArrayList;
 import sprites.Environment;
 
-public class PlayScreen implements Screen, PositionModifierListener, SwipeListener {
+public class PlayScreen implements Screen, PositionModifierListener {
 
 	private Main main;
 	private TextureRegion regions[] = new TextureRegion[4];
-	private Sprite sprites[];
+	private ArrayList<Environment> sprites = new ArrayList<Environment>();
 	private AssetHelper assetHelper;
-
-	private Array<TextureRegion> frames;
-	private Animation animation;
+	
 	//x,y
 	private int[][] arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady = new int[16][26];
 	private int screenSizeScaler = 1;
 	private int bottomRest = 0;
 	private int leftRest = 0;
-	private boolean gameWon = false;
 	private boolean positionChanged = false;
 	private Player player;
 	private int[] playerOld = new int[2];
@@ -46,22 +43,29 @@ public class PlayScreen implements Screen, PositionModifierListener, SwipeListen
 	public PlayScreen(Main main, int level) {
 		this.main = main;
 		assetHelper = main.getAssetHelper();
+		TextureRegion[][] allTextures = assetHelper.getAllTextureRegions();
 		screenSizeScaler = Gdx.graphics.getWidth() / 16;
 		bottomRest = (Gdx.graphics.getHeight() - (screenSizeScaler * 26)) / 2;
 		leftRest = (Gdx.graphics.getWidth() % 16) / 2;
 
-		sprites = new Environment[1];
-		regions[0] = assetHelper.getAllTextureRegions()[1][0];
-		sprites[0] = new Environment(assetHelper);
-		regions[2] = assetHelper.getAllTextureRegions()[1][2];
-		regions[3] = assetHelper.getAllTextureRegions()[1][3];
+		//Prepares all Sprites and texture regions
+		sprites.add(new Environment(assetHelper,0,4,3));
+		sprites.add(new Environment(assetHelper,0,4,2));
+		regions[0] = allTextures[1][0];
+		regions[2] = allTextures[1][2];
+		regions[3] = allTextures[1][3];
 
 		//generates level
 		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady = LevelGenerator.generateLevel(level);
+		
+	/*	//Creates a new Swipe detector
 		gestureListener = new MyGestureListener();
+		//Adds a Listener to the detector
 		gestureListener.addSwipeListener(this);
-		Gdx.input.setInputProcessor(new GestureDetector(gestureListener));
-
+		//sets the detector as inputprocessor so he detects inputs
+		Gdx.input.setInputProcessor(new GestureDetector(gestureListener));*/
+		
+		//create a new Player and manages his position. Single Responiblity is not strong in this ones
 		player = new Player(main.getAssetHelper());
 		playerOld[0] = 0;
 		playerOld[1] = 0;
@@ -74,7 +78,7 @@ public class PlayScreen implements Screen, PositionModifierListener, SwipeListen
 
 	@Override
 	public void positionModifierChange(int[] oldP, int[] newP, boolean topDown, int positiv) {
-		listening = false;
+//		listening = false;
 		positionChanged = true;
 		playerOld = oldP;
 		playerNew = newP;
@@ -82,27 +86,31 @@ public class PlayScreen implements Screen, PositionModifierListener, SwipeListen
 		this.positiv = positiv;
 	}
 	
-	@Override
-	public void swipeDetected(direction direction) {
-		if (listening) {
-			switch(direction){
-				case UP:
-					positionModifier.movePlayerUp();
-					break;
-				case DOWN:
-					positionModifier.movePlayerDown();
-					break;
-				case LEFT:
-					positionModifier.movePlayerLeft();
-					break;
-				case RIGHT:
-					positionModifier.movePlayerRight();
-					break;
-				default:
-					break;
-			}
-		}
-	}
+//	@Override
+//	/**
+//	 * changes the position of the player, when a swipe is detected
+//	 * @param direction is Enum, can be UP/DOWN/LEFT/RIGHT
+//	 */
+//	public void swipeDetected(direction direction) {
+//		if (listening) {
+//			switch(direction){
+//				case UP:
+//					positionModifier.movePlayerUp();
+//					break;
+//				case DOWN:
+//					positionModifier.movePlayerDown();
+//					break;
+//				case LEFT:
+//					positionModifier.movePlayerLeft();
+//					break;
+//				case RIGHT:
+//					positionModifier.movePlayerRight();
+//					break;
+//				default:
+//					break;
+//			}
+//		}
+//	}
 
 	private void update(float dt) {
 		//player.update(dt);
@@ -130,14 +138,16 @@ public class PlayScreen implements Screen, PositionModifierListener, SwipeListen
 			if (topDown) {
 				playerOld[1] += 1 * positiv;
 				if ((positiv >= 0 && playerOld[1] > playerNew[1]) || (positiv <= 0 && playerOld[1] < playerNew[1])) {
-					listening = true;
+//					listening = true;
+					positionModifier.setListeningTrue();
 					positionChanged = false;
 					arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[playerNew[0]][playerNew[1]] = 3;
 				}
 			} else {
 				playerOld[0] += 1 * positiv;
 				if ((positiv >= 0 && playerOld[0] > playerNew[0]) || (positiv <= 0 && playerOld[0] < playerNew[0])) {
-					listening = true;
+//					listening = true;
+					positionModifier.setListeningTrue();
 					positionChanged = false;
 					arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[playerNew[0]][playerNew[1]] = 3;
 				}
@@ -153,17 +163,20 @@ public class PlayScreen implements Screen, PositionModifierListener, SwipeListen
 						break;
 					case 1:
 						//((Enviroment)sprites).getFrame() has to be changed later maybe create a new interface
-						main.batch.draw(((Environment)sprites[0]).getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
+						main.batch.draw(sprites.get(0).getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
 						break;
 					case 2:
 						main.batch.draw(regions[2], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
 						break;
 					case 3:
 						if (positionChanged) {
-							main.batch.draw(regions[0], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
+							main.batch.draw(player.getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
 						} else {
 							main.batch.draw(player.getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
 						}
+						break;
+					case 4:
+						main.batch.draw(sprites.get(1).getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
 						break;
 					default:
 						main.batch.draw(regions[0], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
@@ -175,10 +188,6 @@ public class PlayScreen implements Screen, PositionModifierListener, SwipeListen
 			positionCounterX += screenSizeScaler;
 		}
 		main.batch.end();
-	}
-
-	public void setGameWon() {
-		gameWon = true;
 	}
 
 	public int[][] returnArray() {

@@ -1,6 +1,9 @@
 package Tools;
 
-public class PositionModifier {
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.input.GestureDetector;
+
+public class PositionModifier implements SwipeListener{
 
 	int[][] returnArray;
 	int playerY;
@@ -11,8 +14,16 @@ public class PositionModifier {
 	private PositionModifierListener listener;
 	private int[] oldPosition = new int[2];
 	private int[] newPosition = new int[2];
-
+	private boolean listening = true;
+	
 	public PositionModifier(int[][] arr) {
+		//Creates a new Swipe detector
+		MyGestureListener gestureListener = new MyGestureListener();
+		//Adds a Listener to the detector
+		gestureListener.addSwipeListener(this);
+		//sets the detector as inputprocessor so he detects inputs
+		Gdx.input.setInputProcessor(new GestureDetector(gestureListener));
+		
 		returnArray = arr;
 		//Get player Position;
 		int y = 0;
@@ -54,6 +65,7 @@ public class PositionModifier {
 		for (int i = startpos; (iterateModifier > 0) ? (i < (topDown ? 26 : 16)) : (i >= 0); i += iterateModifier) {
 			if (!collided) {
 				switch (topDown ? returnArray[playerX][i] : returnArray[i][playerY]) {
+					case 4:
 					case 1:
 						collided = true;
 						break;
@@ -79,6 +91,7 @@ public class PositionModifier {
 		newPosition[0] = playerX;
 		newPosition[1] = playerY;
 		listener.positionModifierChange(oldPosition, newPosition, topDown, iterateModifier);
+		listening = false;
 	}
 
 	public void setListener(PositionModifierListener pl) {
@@ -87,5 +100,35 @@ public class PositionModifier {
 
 	public boolean getGameWon() {
 		return gameWon;
+	}
+
+	@Override
+	/**
+	 * changes the position of the player, when a swipe is detected
+	 * @param direction is Enum, can be UP/DOWN/LEFT/RIGHT
+	 */
+	public void swipeDetected(direction direction) {
+		if (listening) {
+			switch(direction){
+				case UP:
+					movePlayerUp();
+					break;
+				case DOWN:
+					movePlayerDown();
+					break;
+				case LEFT:
+					movePlayerLeft();
+					break;
+				case RIGHT:
+					movePlayerRight();
+					break;
+				default:
+					break;
+			}
+		}	
+	}
+	
+	public void setListeningTrue(){
+		listening = true;
 	}
 }
