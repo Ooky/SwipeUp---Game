@@ -101,6 +101,7 @@ public class StartGame implements Screen, PositionModifierListener {
 		
 		positionModifier = new PositionModifier(map);
 		positionModifier.setListener(this);
+		positionModifier.setListening(true);
 		Main.gestureListener.addSwipeListener(positionModifier);
 	}
 

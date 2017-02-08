@@ -15,7 +15,7 @@ public class PositionModifier implements SwipeListener{
 	private PositionModifierListener listener;
 	private int[] oldPosition = new int[2];
 	private int[] newPosition = new int[2];
-	private boolean listening = true;
+	private boolean listening = false;
 	
 	public PositionModifier(int[][] arr) {
 		//Creates a new Swipe detector
@@ -125,15 +125,15 @@ public class PositionModifier implements SwipeListener{
 		}	
 	}
 	
-	public void setListeningTrue(){
-		listening = true;
+	public void setListening(boolean l){
+		listening = l;
 	}
 	
 	public void setToDefaultSettings(int[][] arr){
 		xPos = 0;
 		yPos = 0;
 		gameWon = false;
-		listening = true;
+		listening = false;
 		returnArray = arr;
 		//Get player Position;
 		int y = 0;

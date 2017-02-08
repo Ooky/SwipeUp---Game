@@ -2,7 +2,7 @@ package Tools;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import static com.badlogic.gdx.graphics.g2d.Animation.PlayMode.NORMAL;
+import static com.badlogic.gdx.graphics.g2d.Animation.PlayMode.LOOP;
 import static com.badlogic.gdx.graphics.g2d.Animation.PlayMode.REVERSED;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
@@ -20,6 +20,8 @@ public class AssetHelper implements PlayScreenListener{
 	private float endTimerstartNewPlayScreenAnimation = 0;
 //	private static AssetHelper instance = null;
 
+	private boolean startAnimationIsFinished = false;
+	
 	private TextureRegion[][] allTextureRegions = new TextureRegion[numberOfRowTiles][numberOfColumnTiles];
 
 	public AssetHelper() {
@@ -33,7 +35,7 @@ public class AssetHelper implements PlayScreenListener{
 		for (int i = 0; i < 6; i++) {
 			frames.add(new TextureRegion(new Texture("LevelStartAnimation.png"),  i * 640, 0, 640,960 ));
 		}
-		startNewPlayScreenAnimation = new Animation(1f, frames, NORMAL);
+		startNewPlayScreenAnimation = new Animation(.5f, frames, LOOP);
 		endNewPlayScreenAnimation = new Animation(1f, frames, REVERSED);
 		frames.clear();
 	}
@@ -47,9 +49,12 @@ public class AssetHelper implements PlayScreenListener{
 		return allTextureRegions;
 	}
 
-	public TextureRegion getStartNewPlayScreenAnimationFrame(float dt) {
-		stateTimerstartNewPlayScreenAnimation += dt;
-		return startNewPlayScreenAnimation.getKeyFrame(stateTimerstartNewPlayScreenAnimation, false);
+	public TextureRegion getStartNewPlayScreenAnimationFrame(float dt) {		
+			stateTimerstartNewPlayScreenAnimation += dt;
+			if(startNewPlayScreenAnimation.getKeyFrameIndex(stateTimerstartNewPlayScreenAnimation) >= 5){
+				startAnimationIsFinished = true;
+			}
+			return startNewPlayScreenAnimation.getKeyFrame(stateTimerstartNewPlayScreenAnimation, true);
 	}
 	
 	public TextureRegion getEndNewPlayScreenAnimationFrame(float dt) {
@@ -61,9 +66,14 @@ public class AssetHelper implements PlayScreenListener{
 //		}
 	}
 	
+	public boolean getStartAnimationIsFinished(){
+		return startAnimationIsFinished;
+	}
+	
 	@Override
 	public void levelChangeDetected(){
 		endTimerstartNewPlayScreenAnimation = 0;
+		startAnimationIsFinished = false;
 		stateTimerstartNewPlayScreenAnimation = 0;
 	}
 }

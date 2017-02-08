@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.GL20;
 import sprites.Player;
 import java.util.ArrayList;
 import sprites.Environment;
-
 public class PlayScreen implements Screen, PositionModifierListener {
 
 	private Main main;
@@ -27,8 +26,8 @@ public class PlayScreen implements Screen, PositionModifierListener {
 	private int bottomRest = 0;
 	private int leftRest = 0;
 	private boolean positionChanged = false;
-	private Player player;
-	private int[] playerOld = new int[2];
+	private Player player;	
+private int[] playerOld = new int[2];
 	private int[] playerNew = new int[2];
 	private boolean topDown = false;
 	private int positiv = 1;
@@ -38,13 +37,16 @@ public class PlayScreen implements Screen, PositionModifierListener {
 	public PlayScreen(Main main, int level) {
 		this.main = main;
 		assetHelper = main.getAssetHelper();
+		addListener(assetHelper);
 		TextureRegion[][] allTextures = assetHelper.getAllTextureRegions();
 		screenSizeScaler = Gdx.graphics.getWidth() / 16;
 		bottomRest = (Gdx.graphics.getHeight() - (screenSizeScaler * 26)) / 2;
 		leftRest = (Gdx.graphics.getWidth() % 16) / 2;
 
 		//Prepares all Sprites and texture regions
+		//position 0
 		sprites.add(new Environment(assetHelper,0,4,3));
+		//position 1
 		sprites.add(new Environment(assetHelper,0,4,2));
 		regions[0] = allTextures[1][0];
 		regions[2] = allTextures[1][2];
@@ -102,7 +104,7 @@ public class PlayScreen implements Screen, PositionModifierListener {
 			if (topDown) {
 				playerOld[1] += 1 * positiv;
 				if ((positiv >= 0 && playerOld[1] > playerNew[1]) || (positiv <= 0 && playerOld[1] < playerNew[1])) {
-					positionModifier.setListeningTrue();
+					positionModifier.setListening(true);
 					positionChanged = false;
 					arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[playerNew[0]][playerNew[1]] = 3;
 				}
@@ -111,7 +113,7 @@ public class PlayScreen implements Screen, PositionModifierListener {
 			else {
 				playerOld[0] += 1 * positiv;
 				if ((positiv >= 0 && playerOld[0] > playerNew[0]) || (positiv <= 0 && playerOld[0] < playerNew[0])) {
-					positionModifier.setListeningTrue();
+					positionModifier.setListening(true);
 					positionChanged = false;
 					arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[playerNew[0]][playerNew[1]] = 3;
 				}
@@ -152,7 +154,11 @@ public class PlayScreen implements Screen, PositionModifierListener {
 			positionCounterY = bottomRest;
 			positionCounterX += screenSizeScaler;
 		}
-		main.batch.draw(assetHelper.getStartNewPlayScreenAnimationFrame(delta), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		if(!assetHelper.getStartAnimationIsFinished()){
+			main.batch.draw(assetHelper.getStartNewPlayScreenAnimationFrame(delta), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		}else{
+			positionModifier.setListening(true);
+		}
 		main.batch.end();
 	}
 	
@@ -169,6 +175,9 @@ public class PlayScreen implements Screen, PositionModifierListener {
 		positiv = 1;
 		positionModifier.setToDefaultSettings(arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady);
 		Main.gestureListener.addSwipeListener(positionModifier);
+		for(PlayScreenListener listener : listeners){
+			listener.levelChangeDetected();
+		}
 	}
 	
 	public void addListener(PlayScreenListener listener){
