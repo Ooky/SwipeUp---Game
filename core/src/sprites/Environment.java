@@ -14,7 +14,7 @@ public class Environment extends Sprite {
 	private Array<TextureRegion> frames;
 	private float stateTimer = 0;
 
-	public Environment(AssetHelper assetHelper, int startPos, int endPos, int row) {
+	public Environment(AssetHelper assetHelper, int startPos, int endPos, int row, int animationSlowDown) {
 		int animationLength = endPos - startPos;
 		//Animation
 		animationRegions = new TextureRegion[4];
@@ -25,7 +25,7 @@ public class Environment extends Sprite {
 		for (int i = 0; i < animationRegions.length; i++) {
 			frames.add(animationRegions[i]);
 		}
-		actualAnimation = new Animation(0.5f*30, frames, LOOP);
+		actualAnimation = new Animation(0.1f*animationSlowDown, frames, LOOP);
 		frames.clear();
 	}
 

@@ -11,7 +11,7 @@ public class AssetHelper implements PlayScreenListener{
 
 	private final Texture texture = new Texture("TextureConcept2.png");
 	public final int numberOfColumnTiles = 4;
-	public final int numberOfRowTiles = 4;
+	public final int numberOfRowTiles = 8;
 	
 	
 	private Animation startNewPlayScreenAnimation;

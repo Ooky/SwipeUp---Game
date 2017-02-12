@@ -20,14 +20,17 @@ public class Player extends Sprite {
 		//Animation
 		animationRegions = new TextureRegion[4];
 		for (int i = 0; i <= 3; i++) {
-			animationRegions[i] = new TextureRegion(assetHelper.getAllTextureRegions()[0][i]);
+			animationRegions[i] = new TextureRegion(assetHelper.getAllTextureRegions()[5][i]);
+		}
+		for (int i = 0; i <= 3; i++) {
+			animationRegions[i] = new TextureRegion(assetHelper.getAllTextureRegions()[6][i]);
 		}
 		frames = new Array<TextureRegion>();
 		for (int i = 0; i < animationRegions.length; i++) {
 			frames.add(animationRegions[i]);
 		}
-		playerAnimation = new Animation(0.5f, frames, LOOP);
-		movementAnimation = new Animation(1f, frames, LOOP);
+		playerAnimation = new Animation(0.1f, frames, LOOP);
+		movementAnimation = new Animation(.05f, frames, LOOP);
 		actualAnimation = playerAnimation;
 		frames.clear();
 	}

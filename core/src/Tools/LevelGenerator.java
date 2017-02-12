@@ -20,15 +20,15 @@ public final class LevelGenerator {
 			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[4][0] = 1;
 			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[5][0] = 4;
 			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[6][0] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[7][0] = 4;
+			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[7][0] = 5;
 			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[8][0] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[9][0] = 4;
+			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[9][0] = 5;
 			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[10][0] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[11][0] = 4;
+			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[11][0] = 5;
 			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[12][0] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][0] = 4;
+			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][0] = 5;
 			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[3][24] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[4][24] = 4;
+			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[4][24] = 5;
 			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[5][24] = 1;
 			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[6][24] = 4;
 			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[7][24] = 1;
@@ -50,9 +50,7 @@ public final class LevelGenerator {
 			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[1][1] = 1;
 			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[1][2] = 4;
 			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[1][3] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[7][7] = 2;
 			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[7][6] = 2;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[7][5] = 2;
 		} else {
 
 			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[0][25] = 3;

@@ -45,12 +45,19 @@ private int[] playerOld = new int[2];
 
 		//Prepares all Sprites and texture regions
 		//position 0
-		sprites.add(new Environment(assetHelper,0,4,3));
+		sprites.add(new Environment(assetHelper,0,4,3,150));
 		//position 1
-		sprites.add(new Environment(assetHelper,0,4,2));
-		regions[0] = allTextures[1][0];
-		regions[2] = allTextures[1][2];
-		regions[3] = allTextures[1][3];
+		sprites.add(new Environment(assetHelper,0,4,2,150));
+		//position 2
+		sprites.add(new Environment(assetHelper,0,4,4,150));
+		//position 3 Goal
+		sprites.add(new Environment(assetHelper,0,4,1,1));	
+		//position 4 Blitz
+		sprites.add(new Environment(assetHelper,0,4,0,1));
+		regions[0] = allTextures[7][0];
+		regions[1] = allTextures[7][1];
+		regions[2] = allTextures[7][2];
+		regions[3] = allTextures[7][3];
 
 		//generates level
 		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady = LevelGenerator.generateLevel(level);
@@ -92,12 +99,53 @@ private int[] playerOld = new int[2];
 	@Override
 	public void render(float delta) {
 		update(delta);
-		Gdx.gl.glClearColor(200f / 255f, 255 / 255f, 120f / 255f, 1);//0-1, Float.
+		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);//0-1, Float.
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		int positionCounterX = leftRest;
 		int positionCounterY = bottomRest;
 		main.batch.begin();
 		
+		
+		//Draw the map		
+		for (int[] arr : arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady) {
+			int backgroundCounter = 0;
+			for (int obj : arr) {
+				switch (obj) {
+					case 0:
+						//Background
+						main.batch.draw(regions[backgroundCounter], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
+						break;
+					case 1:
+						//((Enviroment)sprites).getFrame() has to be changed later maybe create a new interface
+						main.batch.draw(sprites.get(0).getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
+						break;
+					case 2:
+						main.batch.draw(sprites.get(3).getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
+						break;
+					case 3:
+						main.batch.draw(regions[backgroundCounter], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
+						if (positionChanged) {
+							main.batch.draw(player.getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
+						} else {
+							main.batch.draw(player.getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
+						}
+						break;
+					case 4:
+						main.batch.draw(sprites.get(1).getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
+						break;
+					case 5:
+						main.batch.draw(sprites.get(2).getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
+						break;
+					default:
+						main.batch.draw(regions[0], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
+						break;
+				}
+				backgroundCounter=(backgroundCounter>=3?0:backgroundCounter+1);
+				positionCounterY += screenSizeScaler;
+			}
+			positionCounterY = bottomRest;
+			positionCounterX += screenSizeScaler;
+		}
 		//Draw the Player Animation
 		if (positionChanged) {
 			//movement y direction
@@ -120,39 +168,6 @@ private int[] playerOld = new int[2];
 			}
 			//draws player while he is moving
 			main.batch.draw(player.getFrame(delta), leftRest + playerOld[0] * screenSizeScaler, bottomRest + playerOld[1] * screenSizeScaler, screenSizeScaler, screenSizeScaler);
-		}
-		//Draw the map
-		for (int[] arr : arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady) {
-			for (int obj : arr) {
-				switch (obj) {
-					case 0:
-						main.batch.draw(regions[0], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
-						break;
-					case 1:
-						//((Enviroment)sprites).getFrame() has to be changed later maybe create a new interface
-						main.batch.draw(sprites.get(0).getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
-						break;
-					case 2:
-						main.batch.draw(regions[2], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
-						break;
-					case 3:
-						if (positionChanged) {
-							main.batch.draw(player.getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
-						} else {
-							main.batch.draw(player.getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
-						}
-						break;
-					case 4:
-						main.batch.draw(sprites.get(1).getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
-						break;
-					default:
-						main.batch.draw(regions[0], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
-						break;
-				}
-				positionCounterY += screenSizeScaler;
-			}
-			positionCounterY = bottomRest;
-			positionCounterX += screenSizeScaler;
 		}
 		if(!assetHelper.getStartAnimationIsFinished()){
 			main.batch.draw(assetHelper.getStartNewPlayScreenAnimationFrame(delta), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
