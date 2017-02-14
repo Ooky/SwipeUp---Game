@@ -61,8 +61,7 @@ public class PositionModifier implements SwipeListener{
 		boolean collided = false;
 		oldPosition[0] = playerX;
 		oldPosition[1] = playerY;
-
-		returnArray[playerX][playerY] = 0;
+		
 		for (int i = startpos; (iterateModifier > 0) ? (i < (topDown ? 26 : 16)) : (i >= 0); i += iterateModifier) {
 			if (!collided) {
 				switch (topDown ? returnArray[playerX][i] : returnArray[i][playerY]) {
@@ -91,6 +90,9 @@ public class PositionModifier implements SwipeListener{
 		}
 		newPosition[0] = playerX;
 		newPosition[1] = playerY;
+		if(newPosition[0] != oldPosition[0] || newPosition[1] != oldPosition[1]){
+			returnArray[oldPosition[0]][oldPosition[1]] = 0;			
+		}
 		listener.positionModifierChange(oldPosition, newPosition, topDown, iterateModifier, gameWon);
 		listening = false;
 	}

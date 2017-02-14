@@ -80,11 +80,13 @@ public class PlayScreen implements Screen, PositionModifierListener {
 	@Override
 	public void positionModifierChange(int[] oldP, int[] newP, boolean topDown, int positiv, boolean gameWon) {
 		this.gameWon = gameWon;
-		positionChanged = true;
-		playerOld = oldP;
-		playerNew = newP;
-		this.topDown = topDown;
-		this.positiv = positiv;
+		if(oldP[0] != newP[0] || oldP[1] != newP[1]){
+			positionChanged = true;
+			playerOld = oldP;
+			playerNew = newP;
+			this.topDown = topDown;
+			this.positiv = positiv;
+		}
 	}
 	
 
@@ -127,12 +129,7 @@ public class PlayScreen implements Screen, PositionModifierListener {
 						main.batch.draw(sprites.get(3).getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
 						break;
 					case 3:
-						//main.batch.draw(regions[backgroundCounter], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
-						if (positionChanged) {
-							main.batch.draw(player.getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
-						} else {
-							main.batch.draw(player.getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
-						}
+						main.batch.draw(player.getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
 						break;
 					case 4:
 						main.batch.draw(sprites.get(1).getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
@@ -151,11 +148,11 @@ public class PlayScreen implements Screen, PositionModifierListener {
 			positionCounterX += screenSizeScaler;
 		}
 		//Draw the Player Animation
-		if (positionChanged) {
+		if (positionChanged) {			
 			//movement y direction
 			if (topDown) {
 				playerOld[1] += 1 * positiv;
-				if ((positiv >= 0 && playerOld[1] > playerNew[1]) || (positiv <= 0 && playerOld[1] < playerNew[1])) {
+				if ((positiv >= 0 && playerOld[1] >= playerNew[1]) || (positiv <= 0 && playerOld[1] <= playerNew[1])) {
 					positionModifier.setListening(true);
 					positionChanged = false;
 					arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[playerNew[0]][playerNew[1]] = 3;
@@ -164,7 +161,7 @@ public class PlayScreen implements Screen, PositionModifierListener {
 			//move x direction
 			else {
 				playerOld[0] += 1 * positiv;
-				if ((positiv >= 0 && playerOld[0] > playerNew[0]) || (positiv <= 0 && playerOld[0] < playerNew[0])) {
+				if ((positiv >= 0 && playerOld[0] >= playerNew[0]) || (positiv <= 0 && playerOld[0] <= playerNew[0])) {
 					positionModifier.setListening(true);
 					positionChanged = false;
 					arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[playerNew[0]][playerNew[1]] = 3;
