@@ -139,7 +139,7 @@ public class StartGame implements Screen, PositionModifierListener {
 	@Override
 	public void render(float delta) {
 		update(delta);
-		Gdx.gl.glClearColor(0 / 255f, 0 / 255f, 255f / 255f, 1);//0-1, Float.
+		Gdx.gl.glClearColor(0f, 162f/255f, 232f/255f, 1);//0-1, Float.
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();

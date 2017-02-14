@@ -27,12 +27,13 @@ public class PlayScreen implements Screen, PositionModifierListener {
 	private int leftRest = 0;
 	private boolean positionChanged = false;
 	private Player player;	
-private int[] playerOld = new int[2];
+	private int[] playerOld = new int[2];
 	private int[] playerNew = new int[2];
 	private boolean topDown = false;
 	private int positiv = 1;
 	private PositionModifier positionModifier;
 	private ArrayList<PlayScreenListener> listeners = new ArrayList<PlayScreenListener>();
+	private int currentLevelNumber;
 	
 	public PlayScreen(Main main, int level) {
 		this.main = main;
@@ -60,7 +61,8 @@ private int[] playerOld = new int[2];
 		regions[3] = allTextures[7][3];
 
 		//generates level
-		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady = LevelGenerator.generateLevel(level);
+		currentLevelNumber = level;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady = LevelGenerator.generateLevel(currentLevelNumber);
 		
 		//create a new Player and manages his position. Single Responiblity is not strong in this ones
 		player = new Player(main.getAssetHelper());
@@ -71,7 +73,7 @@ private int[] playerOld = new int[2];
 		
 		positionModifier = new PositionModifier(arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady);
 		positionModifier.setListener(this);
-		Main.gestureListener.addSwipeListener(positionModifier);
+		main.gestureListener.addSwipeListener(positionModifier);
 	}
 
 	@Override
@@ -87,11 +89,11 @@ private int[] playerOld = new int[2];
 
 	private void update(float dt) {
 		if (gameWon && !positionChanged) {
-			main.setScreen(new WinScreen(main, this));
+			main.setScreen(new WinScreen(main, this, currentLevelNumber));
 			for(PlayScreenListener listener : listeners){
 				listener.levelChangeDetected();
 			}
-			Main.gestureListener.removeSwipeListener(positionModifier);
+			main.gestureListener.removeSwipeListener(positionModifier);
 			this.dispose();
 		}
 	}
@@ -99,7 +101,7 @@ private int[] playerOld = new int[2];
 	@Override
 	public void render(float delta) {
 		update(delta);
-		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);//0-1, Float.
+		Gdx.gl.glClearColor(0f, 162f/255f, 232f/255f, 1);//0-1, Float.
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		int positionCounterX = leftRest;
 		int positionCounterY = bottomRest;
@@ -179,7 +181,8 @@ private int[] playerOld = new int[2];
 	
 	//changes the played level and reset the attributs
 	public void changeLevel(int level){
-		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady = LevelGenerator.generateLevel(level);
+		currentLevelNumber = level;
+		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady = LevelGenerator.generateLevel(currentLevelNumber);
 		playerOld[0] = 0;
 		playerOld[1] = 0;
 		playerNew[0] = 0;
