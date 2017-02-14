@@ -10,6 +10,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import sprites.Player;
 import java.util.ArrayList;
 import sprites.Environment;
@@ -106,7 +107,7 @@ public class PlayScreen implements Screen, PositionModifierListener {
 		int positionCounterX = leftRest;
 		int positionCounterY = bottomRest;
 		main.batch.begin();
-		
+		main.batch.draw(assetHelper.getBackground(), 0, 0);
 		
 		//Draw the map		
 		for (int[] arr : arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady) {
@@ -115,7 +116,7 @@ public class PlayScreen implements Screen, PositionModifierListener {
 				switch (obj) {
 					case 0:
 						//Background
-						main.batch.draw(regions[backgroundCounter], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
+						//main.batch.draw(regions[backgroundCounter], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
 						break;
 					case 1:
 						//((Enviroment)sprites).getFrame() has to be changed later maybe create a new interface
@@ -125,7 +126,7 @@ public class PlayScreen implements Screen, PositionModifierListener {
 						main.batch.draw(sprites.get(3).getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
 						break;
 					case 3:
-						main.batch.draw(regions[backgroundCounter], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
+						//main.batch.draw(regions[backgroundCounter], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
 						if (positionChanged) {
 							main.batch.draw(player.getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
 						} else {
@@ -139,7 +140,7 @@ public class PlayScreen implements Screen, PositionModifierListener {
 						main.batch.draw(sprites.get(2).getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
 						break;
 					default:
-						main.batch.draw(regions[0], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
+						//main.batch.draw(regions[0], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
 						break;
 				}
 				backgroundCounter=(backgroundCounter>=3?0:backgroundCounter+1);

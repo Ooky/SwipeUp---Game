@@ -18,6 +18,8 @@ public class AssetHelper implements PlayScreenListener{
 	private Animation endNewPlayScreenAnimation;
 	private float stateTimerstartNewPlayScreenAnimation = 0;
 	private float endTimerstartNewPlayScreenAnimation = 0;
+	private Texture background = new Texture("starBackground.png");
+	
 //	private static AssetHelper instance = null;
 
 	private boolean startAnimationIsFinished = false;
@@ -32,10 +34,10 @@ public class AssetHelper implements PlayScreenListener{
 		}
 		
 		Array<TextureRegion> frames = new Array<TextureRegion>();
-		for (int i = 0; i < 6; i++) {
-			frames.add(new TextureRegion(new Texture("LevelStartAnimation.png"),  i * 640, 0, 640,960 ));
+		for (int i = 0; i < 12; i++) {
+			frames.add(new TextureRegion(new Texture("LevelStartAnimation.png"),  i * 320, 0, 320,480 ));
 		}
-		startNewPlayScreenAnimation = new Animation(.5f, frames, LOOP);
+		startNewPlayScreenAnimation = new Animation(.02f, frames, LOOP);
 		endNewPlayScreenAnimation = new Animation(1f, frames, REVERSED);
 		frames.clear();
 	}
@@ -48,10 +50,14 @@ public class AssetHelper implements PlayScreenListener{
 	public TextureRegion[][] getAllTextureRegions() {
 		return allTextureRegions;
 	}
-
+	
+	public Texture getBackground(){
+		return background;
+	}
+	
 	public TextureRegion getStartNewPlayScreenAnimationFrame(float dt) {		
 			stateTimerstartNewPlayScreenAnimation += dt;
-			if(startNewPlayScreenAnimation.getKeyFrameIndex(stateTimerstartNewPlayScreenAnimation) >= 5){
+			if(startNewPlayScreenAnimation.getKeyFrameIndex(stateTimerstartNewPlayScreenAnimation) >= 11){
 				startAnimationIsFinished = true;
 			}
 			return startNewPlayScreenAnimation.getKeyFrame(stateTimerstartNewPlayScreenAnimation, true);
