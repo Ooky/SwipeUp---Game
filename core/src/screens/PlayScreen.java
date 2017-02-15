@@ -110,7 +110,7 @@ public class PlayScreen implements Screen, PositionModifierListener {
 		int positionCounterY = bottomRest;
 		main.batch.begin();
 		//new background  maybe change the scale later so it doesn't matter which device is used
-		main.batch.draw(assetHelper.getBackground(), 0, 0);
+		main.batch.draw(assetHelper.getBackgroundAnimation(delta), 0, 0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 		
 		//Draw the map		
 		for (int[] arr : arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady) {
