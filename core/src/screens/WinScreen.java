@@ -5,20 +5,26 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 
 public class WinScreen implements Screen {
 
 	private Main main;
 	private PlayScreen playScreen;
-	private BitmapFont font = new BitmapFont();	
+	private BitmapFont font;	
 	private int level;
 	
 	public WinScreen(Main main, PlayScreen playScreen, int level) {
 		this.main = main;
 		this.playScreen = playScreen;
-		font.setColor(0.5f,0.5f,0,5f);
-		font.getData().setScale(5,5);	//Scale Bitfont
 		this.level = level;
+		this.level = level;
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
+		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+		parameter.size = Gdx.graphics.getWidth()/18;
+		font = generator.generateFont(parameter); // font size 12 pixels
+		generator.dispose(); // don't forget to dispose to avoid memory leaks!
 	}
 
 	private void update(float dt) {
