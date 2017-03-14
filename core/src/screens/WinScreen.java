@@ -19,7 +19,6 @@ public class WinScreen implements Screen {
 		this.main = main;
 		this.playScreen = playScreen;
 		this.level = level;
-		this.level = level;
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.size = Gdx.graphics.getWidth()/18;
@@ -32,8 +31,9 @@ public class WinScreen implements Screen {
 	}
 
 	private void handleInput() {
+		int newLevel = level+1;
 		if (Gdx.input.isTouched()) {
-			playScreen.changeLevel(2);
+			playScreen.changeLevel(newLevel);
 			main.setScreen(playScreen);
 		}
 	}

@@ -40,7 +40,7 @@ public class PlayScreen implements Screen, PositionModifierListener {
 		this.main = main;
 		assetHelper = main.getAssetHelper();
 		addListener(assetHelper);
-		TextureRegion[][] allTextures = assetHelper.getAllTextureRegions();
+		//TextureRegion[][] allTextures = assetHelper.getAllTextureRegions();
 		screenSizeScaler = Gdx.graphics.getWidth() / 16;
 		bottomRest = (Gdx.graphics.getHeight() - (screenSizeScaler * 26)) / 2;
 		leftRest = (Gdx.graphics.getWidth() % 16) / 2;
@@ -56,17 +56,17 @@ public class PlayScreen implements Screen, PositionModifierListener {
 		sprites.add(new Environment(assetHelper,0,4,1,1));	
 		//position 4 Blitz
 		sprites.add(new Environment(assetHelper,0,4,0,1));
-		regions[0] = allTextures[7][0];
-		regions[1] = allTextures[7][1];
-		regions[2] = allTextures[7][2];
-		regions[3] = allTextures[7][3];
+		//regions[0] = allTextures[7][0];
+		//regions[1] = allTextures[7][1];
+		//regions[2] = allTextures[7][2];
+		//regions[3] = allTextures[7][3];
 
 		//generates level
 		currentLevelNumber = level;
 		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady = LevelGenerator.generateLevel(currentLevelNumber);
 		
 		//create a new Player and manages his position. Single Responiblity is not strong in this ones
-		player = new Player(main.getAssetHelper());
+		player = new Player(assetHelper);
 		playerOld[0] = 0;
 		playerOld[1] = 0;
 		playerNew[0] = 0;
@@ -104,13 +104,14 @@ public class PlayScreen implements Screen, PositionModifierListener {
 	@Override
 	public void render(float delta) {
 		update(delta);
-		Gdx.gl.glClearColor(0f, 162f/255f, 232f/255f, 1);//0-1, Float.
+		//Gdx.gl.glClearColor(0f, 162f/255f, 232f/255f, 1);//0-1, Float.
+		Gdx.gl.glClearColor(255f, 255f, 255f, 1);//0-1, Float.
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		int positionCounterX = leftRest;
 		int positionCounterY = bottomRest;
 		main.batch.begin();
 		//new background  maybe change the scale later so it doesn't matter which device is used
-		main.batch.draw(assetHelper.getBackgroundAnimation(delta), 0, 0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+		//main.batch.draw(assetHelper.getBackgroundAnimation(delta), 0, 0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 		
 		//Draw the map		
 		for (int[] arr : arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady) {
@@ -123,19 +124,24 @@ public class PlayScreen implements Screen, PositionModifierListener {
 						break;
 					case 1:
 						//((Enviroment)sprites).getFrame() has to be changed later maybe create a new interface
-						main.batch.draw(sprites.get(0).getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
+						//main.batch.draw(sprites.get(0).getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
+						main.batch.draw(assetHelper.getAllTextureRegions()[0][1], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
 						break;
 					case 2:
 						main.batch.draw(sprites.get(3).getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
+						//main.batch.draw(assetHelper.getAllTextureRegions()[0][1], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
 						break;
 					case 3:
-						main.batch.draw(player.getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
+						//main.batch.draw(player.getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
+						main.batch.draw(assetHelper.getAllTextureRegions()[0][0], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
 						break;
 					case 4:
-						main.batch.draw(sprites.get(1).getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
+						//main.batch.draw(sprites.get(1).getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
+						main.batch.draw(assetHelper.getAllTextureRegions()[0][1], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
 						break;
 					case 5:
-						main.batch.draw(sprites.get(2).getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
+						//main.batch.draw(sprites.get(2).getFrame(delta), positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
+						main.batch.draw(assetHelper.getAllTextureRegions()[0][1], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
 						break;
 					default:
 						//main.batch.draw(regions[0], positionCounterX, positionCounterY, screenSizeScaler, screenSizeScaler);
@@ -168,7 +174,7 @@ public class PlayScreen implements Screen, PositionModifierListener {
 				}
 			}
 			//draws player while he is moving
-			main.batch.draw(player.getFrame(delta), leftRest + playerOld[0] * screenSizeScaler, bottomRest + playerOld[1] * screenSizeScaler, screenSizeScaler, screenSizeScaler);
+			main.batch.draw(assetHelper.getAllTextureRegions()[0][0], leftRest + playerOld[0] * screenSizeScaler, bottomRest + playerOld[1] * screenSizeScaler, screenSizeScaler, screenSizeScaler);
 		}
 		if(!assetHelper.getStartAnimationIsFinished()){
 			main.batch.draw(assetHelper.getStartNewPlayScreenAnimationFrame(delta), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

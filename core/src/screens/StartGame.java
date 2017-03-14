@@ -1,5 +1,6 @@
 package screens;
 
+import Tools.AssetHelper;
 import Tools.PositionModifier;
 import Tools.PositionModifierListener;
 import ch.creatif.swipeup.game.Main;
@@ -35,13 +36,15 @@ public class StartGame implements Screen, PositionModifierListener {
 	private int leftRest = 0;
 	private int[][] map = new int[16][26];
 	private boolean startGame = false;
+	private AssetHelper assetHelper;
 	
 	public StartGame(Main main) {
 		this.main = main;
 		height = Gdx.graphics.getHeight();
 		width = Gdx.graphics.getWidth();
 		stage = new Stage();
-		player = new Player(main.getAssetHelper());
+		assetHelper = main.getAssetHelper();
+		player = new Player(assetHelper);
 		playerOld[0] = 8;
 		playerOld[1] = 12;
 		playerNew[0] = 0;
@@ -94,10 +97,10 @@ public class StartGame implements Screen, PositionModifierListener {
 		stage.addActor(textButton4);
 
 		map[8][12] = 3;
-		map[8][22] = 1;
-		map[8][3] = 1;
-		map[2][12] = 1;
-		map[14][12] = 1;
+		map[8][23] = 1;
+		map[8][1] = 1;
+		map[1][12] = 1;
+		map[15][12] = 1;
 		
 		positionModifier = new PositionModifier(map);
 		positionModifier.setListener(this);
@@ -139,12 +142,12 @@ public class StartGame implements Screen, PositionModifierListener {
 	@Override
 	public void render(float delta) {
 		update(delta);
-		Gdx.gl.glClearColor(0f, 162f/255f, 232f/255f, 1);//0-1, Float.
+		Gdx.gl.glClearColor(255f, 255f, 255f, 1);//0-1, Float.
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
 		main.batch.begin();
-		
+		main.batch.draw(assetHelper.getStartMenue(), 0, 0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 		//Draw the Player Animation
 		if (positionChanged) {
 			if (topDown) {
@@ -160,10 +163,10 @@ public class StartGame implements Screen, PositionModifierListener {
 					map[playerNew[0]][playerNew[1]] = 3;
 				}
 			}
-			main.batch.draw(player.getFrame(delta), leftRest + playerOld[0] * screenSizeScaler - width/32, bottomRest + playerOld[1] * screenSizeScaler, screenSizeScaler, screenSizeScaler);
+			main.batch.draw(assetHelper.getAllTextureRegions()[0][0], leftRest + playerOld[0] * screenSizeScaler - width/32, bottomRest + playerOld[1] * screenSizeScaler, screenSizeScaler, screenSizeScaler);
 		}else{
 			//Draw the player before and after the swipe
-			main.batch.draw(player.getFrame(delta), leftRest + playerOld[0] * screenSizeScaler - width/32, bottomRest + playerOld[1] * screenSizeScaler, screenSizeScaler, screenSizeScaler);
+			main.batch.draw(assetHelper.getAllTextureRegions()[0][0], leftRest + playerOld[0] * screenSizeScaler - width/32, bottomRest + playerOld[1] * screenSizeScaler, screenSizeScaler, screenSizeScaler);
 		}
 		main.batch.end();
 	}

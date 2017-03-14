@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.Array;
 
 public class AssetHelper implements PlayScreenListener{
 
-	private final Texture texture = new Texture("TextureConcept2.png");
+	private final Texture texture = new Texture("textureConcept3.png");
 	public final int numberOfColumnTiles = 4;
 	public final int numberOfRowTiles = 8;
 	
@@ -20,7 +20,8 @@ public class AssetHelper implements PlayScreenListener{
 	private float backgroundAnimationTimer = 0;
 	private float stateTimerstartNewPlayScreenAnimation = 0;
 	private float endTimerstartNewPlayScreenAnimation = 0;
-	private Texture background = new Texture("starBackground.png");
+	private Texture background = new Texture("starBackground.png");	//Stars in the background
+	private Texture startScreenBackground = new Texture("startBackground.png");	//Menu Selection
 	
 //	private static AssetHelper instance = null;
 
@@ -63,6 +64,9 @@ public class AssetHelper implements PlayScreenListener{
 	
 	public Texture getBackground(){
 		return background;
+	}
+	public Texture getStartMenue(){
+		return startScreenBackground;
 	}
 	public TextureRegion getBackgroundAnimation(float dt){
 		backgroundAnimationTimer += dt;
