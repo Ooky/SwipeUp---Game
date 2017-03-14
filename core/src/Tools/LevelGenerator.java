@@ -1,191 +1,44 @@
 package Tools;
 
+import java.util.ArrayList;
+
 public final class LevelGenerator {
 
 	private static int[][] arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady = new int[16][26];
-
+	private static OwnFileReader fileReader = new OwnFileReader();
+	private static ArrayList<String> levelList;
+	
 	public static int[][] generateLevel(int level) {
 		arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady = new int[16][26];
 		//SETUP
 		switch(level){
-			case 1:				
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[0][0] = 1;			
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[0][1] = 1;			
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[1][0] = 3;			
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[2][0] = 1;			
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[2][1] = 1;			
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[2][2] = 1;			
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[2][3] = 1;			
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[2][4] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[2][5] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[2][6] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[0][0] = 1;			
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[0][2] = 1;			
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[0][3] = 1;			
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[0][4] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[0][5] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[0][6] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[0][7] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[1][8] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[0][8] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[2][8] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[2][8] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[3][8] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[4][8] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[5][8] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[6][8] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[7][8] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[8][8] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[9][8] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[10][8] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[11][8] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[12][8] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][8] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][8] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[2][6] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[3][6] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[4][6] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[5][6] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[6][6] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[7][6] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[8][6] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[9][6] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[10][6] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[11][6] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[12][6] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][6] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[14][6] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][6] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][7] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][9] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][10] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][11] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][12] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][13] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][14] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][15] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][16] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][17] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][18] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][19] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][20] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][21] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][22] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][23] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][24] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][25] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][25] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[14][25] = 2;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][24] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][23] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][22] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][21] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][20] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][19] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][18] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][17] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][16] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][15] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][14] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][13] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][12] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][11] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][10] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][9] = 1;
+			case 1:	
+			levelList = fileReader.stringFromFile("Level/1.txt");
+			for(String levelPart : levelList){
+				String[] values = levelPart.split(";");
+				arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[Integer.parseInt(values[0])][Integer.parseInt(values[1])] = Integer.parseInt(values[2]);	
+			}
 		break;
 		case 2:
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[8][25] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[9][2] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][25] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[14][25] = 3;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][3] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[14][2] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[2][3] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[3][2] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[3][25] = 2;
+			levelList = fileReader.stringFromFile("Level/2.txt");
+			for(String levelPart : levelList){
+				String[] values = levelPart.split(";");
+				arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[Integer.parseInt(values[0])][Integer.parseInt(values[1])] = Integer.parseInt(values[2]);	
+			}
 		break;
 		case 3:				
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[5][5] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[0][5] = 4;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][22] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[14][20] = 4;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[6][22] = 3;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[0][0] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[1][0] = 4;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[2][0] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[3][0] = 4;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[4][0] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[5][0] = 4;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[6][0] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[7][0] = 5;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[8][0] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[9][0] = 5;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[10][0] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[11][0] = 5;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[12][0] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][0] = 5;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[3][24] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[4][24] = 5;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[5][24] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[6][24] = 4;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[7][24] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[8][24] = 4;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[9][24] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[10][24] = 4;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[11][24] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[12][24] = 4;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][24] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[10][15] = 4;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[11][15] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[12][15] = 4;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][15] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][25] = 4;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][1] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][2] = 4;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][3] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][1] = 4;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[1][1] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[1][2] = 4;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[1][3] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[7][6] = 2;
+			levelList = fileReader.stringFromFile("Level/3.txt");
+			for(String levelPart : levelList){
+				String[] values = levelPart.split(";");
+				arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[Integer.parseInt(values[0])][Integer.parseInt(values[1])] = Integer.parseInt(values[2]);	
+			}
 			break;
 			default:				
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[0][25] = 3;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[0][24] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[0][23] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[0][22] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[1][24] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[2][24] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[3][24] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[4][24] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[5][24] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[6][24] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[7][24] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[9][25] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[10][25] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[11][25] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[12][25] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][25] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[14][25] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][25] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][25] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][24] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[14][24] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[13][24] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[12][24] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[11][24] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[10][24] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[9][24] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[8][22] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[7][22] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[6][22] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[5][22] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[4][22] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[0][20] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[1][20] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[2][20] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[3][20] = 1;
-			arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[15][21] = 2;
+			levelList = fileReader.stringFromFile("Level/default.txt");
+			for(String levelPart : levelList){
+				String[] values = levelPart.split(";");
+				arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady[Integer.parseInt(values[0])][Integer.parseInt(values[1])] = Integer.parseInt(values[2]);	
+			}
 			break;
 		}
 		return arrayToTestOnlyWillBeReplacedWhenTheEditorIsReady;

@@ -13,7 +13,7 @@ public class Main extends Game {
 	public SpriteBatch batch;
 	public AssetHelper assetHelper;
 	public static final MyGestureListener gestureListener = new MyGestureListener();
-	
+
 	@Override
 	public void create() {
 		batch = new SpriteBatch();

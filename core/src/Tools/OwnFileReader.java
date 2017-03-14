@@ -1,9 +1,12 @@
 package Tools;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -11,21 +14,13 @@ public class OwnFileReader {
 	private BufferedReader bf;
 	private FileReader fr;
 	
-	public String stringFromFile(String path){
-		String returnString = "";
-		String currentLine;
-		try {
-			fr = new FileReader(path);
-			bf = new BufferedReader(fr);
-			try {
-				while ((currentLine = bf.readLine()) != null) {
-					returnString += currentLine;
-				}
-			} catch (IOException ex) {
-				Logger.getLogger(OwnFileReader.class.getName()).log(Level.SEVERE, null, ex);
-			}
-		} catch (FileNotFoundException ex) {
-			Logger.getLogger(OwnFileReader.class.getName()).log(Level.SEVERE, null, ex);
+	public ArrayList<String> stringFromFile(String path){
+		FileHandle file = Gdx.files.internal(path);
+		String text = file.readString();
+		ArrayList<String> returnString = new ArrayList<String>();
+		for(String string : text.split("\\r?\\n")){
+			returnString.add(string);	
 		}
+		return returnString;
 	}
 }
